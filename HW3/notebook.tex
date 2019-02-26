@@ -1,0 +1,690 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{HW3}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \paragraph{Erin Witmer}\label{erin-witmer}
+
+CSC 440\\
+Homework 3
+
+    \subsection{Chapter 6}\label{chapter-6}
+
+    \paragraph{{[}6.1{]} Suppose you have the set C of all frequent closed
+itemsets on a data set D, as well as the support count for each frequen
+closed itemset. Describe an algorithm to determine whether a given
+itemset X is frequent or not, and the support of X if it is
+frequent.}\label{suppose-you-have-the-set-c-of-all-frequent-closed-itemsets-on-a-data-set-d-as-well-as-the-support-count-for-each-frequen-closed-itemset.-describe-an-algorithm-to-determine-whether-a-given-itemset-x-is-frequent-or-not-and-the-support-of-x-if-it-is-frequent.}
+
+    An itemset X is closed in set D if there exists no superset Y such than
+Y has the same support count as X in D. Per the text: "The set of closed
+frequent itemsets contains complete information regarding the frequent
+itemsets." A simple algorithm to determine whether X is frequent or not
+and the support is:
+
+\begin{verbatim}
+sort set C by support count (high to low)
+
+for each itemset (i) in C:
+    
+    if X is a subset of C(i):
+       return support count for this item 
+            
+    else:
+       next item
+    
+return X is not frequent if X is not a subset of any itemset in C 
+\end{verbatim}
+
+We know that the support count of X if it is a subset of the itemset in
+C is the same as the support count in that itemset based on the
+definition of the closed itemset. We know it is frequent because C is a
+set of all frequent closed itemsets. We know that if X is not a subset
+of any itemset in C, it is not frequent.
+
+    \paragraph{{[}6.3{]} The Apriori algorithm makes use of prior knowledge
+of subset support
+properties.}\label{the-apriori-algorithm-makes-use-of-prior-knowledge-of-subset-support-properties.}
+
+    \paragraph{(a) Prove that all nonempty subsets of a frequent itemset
+must also be
+frequent.}\label{a-prove-that-all-nonempty-subsets-of-a-frequent-itemset-must-also-be-frequent.}
+
+    An itemset (I) is a frequent itemset if the percentage of transactions
+(T) in a database (D) containing that itemset (I) meets or exceeds a
+minimum support threshold (min\_sup). That is:
+
+\[ \frac{countOfTransactionsContaining(I)}{totalTransactionsIn(D)} \geq minSupport \\\]if
+\[ A \subset I
+\] then the count of transactions containing A is greater than or equal
+to the count of transactions containing I, because every transaction
+containing I, will also contain A. This is true for all non-empty
+subsets of I. Support of an itemset never exceeds the support of its
+subsets. This is known as the anti-monotone property of support. The
+denominator, the count of all transactions, does not change. So if the
+numerator (count of transactions containing A) is greater than or equal
+to the count of transactions containing I, and the denominator is
+constant, then the support level will be greater than or equal to the
+support level of I. If I is frequent, or higher than the min support
+level, then A will also be frequent.
+
+    \paragraph{(b) Prove that the support of any nonempty subset s′ of
+itemset s must be at least as great as the support of
+s.}\label{b-prove-that-the-support-of-any-nonempty-subset-s-of-itemset-s-must-be-at-least-as-great-as-the-support-of-s.}
+
+    Again, this can be proven based on the anti-monotone property of
+support. Support of an itemset never exceeds the support of its subsets.
+The support count of s is the number of times an itemset (s) appears in
+the universe of all transactions. For example, if s = \{beer, nuts,
+diapers\} then the support count of s is the number of transactions
+which contain all three of those items. Any subset of s, for example, s'
+= \{beer, nuts\} will occur in all transactions in which s occurs. In
+other words, any transaction which contains \{beer, nuts, diapers\} will
+also contain all subsets of that itemset \{beer, nuts\}. The support
+count of s' will therefore be at least as high as s, and may be higher
+if the subset s' occurs in additional transactions.
+
+    \paragraph{(c) Given frequent itemset l and subset s of l, prove that
+the confidence of the rule ``s′ -\textgreater{}(l−s′)'' cannot be more
+than the confidence of ``s-\textgreater{}(l−s),'' where s′ is a subset
+of
+s.}\label{c-given-frequent-itemset-l-and-subset-s-of-l-prove-that-the-confidence-of-the-rule-s--ls-cannot-be-more-than-the-confidence-of-s-ls-where-s-is-a-subset-of-s.}
+
+    \[ confidence(s'->l-s')= \frac{supportCount(s' ∪ (l-s'))}{supportCount(s')}\]
+
+\[confidence(s->l-s)= \frac{supportCount(s ∪ (l-s))}{supportCount(s)}\]
+
+    Since we know s' is a subset of s and therefore a subset of l, l-s'
+represents the complement to the frequent itemset, l. In union with s',
+it equals the frequent itemset. So the count of s' ∪ (l-s') will be the
+support count of l. Similarly, l-s represents the complement to the
+frequent itemset, and the count of s ∪ (l-s) will be the count of l. So
+we know the numerators in the equations above are the same. As proved
+above, the support count of s' as a subset of s will always be greater
+than or equal to the support count of s. So the denominator in the first
+equation above will always be greater than or equal to the denominator
+in the second equation, and the value of the first equation will always
+be less than or equal to the value of the second equation.
+
+    \paragraph{(d) A partitioning variation of Apriori subdivides the
+transactions of a database D into n nonoverlapping partitions. Prove
+that any itemset that is frequent in D must be frequent in at least one
+partition of
+D.}\label{d-a-partitioning-variation-of-apriori-subdivides-the-transactions-of-a-database-d-into-n-nonoverlapping-partitions.-prove-that-any-itemset-that-is-frequent-in-d-must-be-frequent-in-at-least-one-partition-of-d.}
+
+    If a given itemset is frequent in D, then it must be locally frequent in
+at least one nonoverlapping partition of D. The itemset is frequent in D
+if: \[ \frac{supportCount(I)}{totalTransactionsIn(D)} \geq minSupport \]
+
+If the database is divided up, at least one of the partitions will have
+to meet the minimum support for that local partition because if no
+partition did, the global support count needed would not be reached. For
+example, if there are 100 transactions, and the min\_support is 60\%,
+then there must be 60 instances of the itemset in the database. If this
+was partitioned into 5 sets of 20 transactions, then the min\_support
+count would be 12 for each partition. If C1...C5 \textless{} 12, then
+the total support count would be \textless{} 60, and the itemset would
+not be frequent. Therefore, at least one of the partitions needs to be
+locally frequent if the itemset is frequent.
+
+    \paragraph{{[}6.4{]} Let c be a candidate itemset in Ck generated by the
+Apriori algorithm. How many length-(k − 1) subsets do we need to check
+in the prune step? Per your previous answer, can you give an improved
+version of procedure has infrequent subset in Figure
+6.4?}\label{let-c-be-a-candidate-itemset-in-ck-generated-by-the-apriori-algorithm.-how-many-length-k-1-subsets-do-we-need-to-check-in-the-prune-step-per-your-previous-answer-can-you-give-an-improved-version-of-procedure-has-infrequent-subset-in-figure-6.4}
+
+    For every candidate C(k) generated, we need to check k choose k-1
+subsets, which is equal to k subsets.
+
+\[ {k \choose k-1} = k\]
+
+For example, if C(k) = \{I1, I2, I3\}, we need to check 3 choose 2, or 3
+itemsets: \{I1, I2\}, \{I1, I3\}, \{I2, I3\}. One way to improve the
+procedure \texttt{has\_infrequent\_subset()} is to assume that the items
+which constructed the candidate set are frequent, so we don't need to
+check them. So for example, (k-1) frequent itemsets ABC + ABD = ABCD
+(Candidate of k length). Pruning combinations to check are ABC, ABD,
+BCD, ACD but it was constructed from ABC, ABD, so those are assumed
+frequent, you only have to check BCD and ACD or (k-2) sets.
+
+    \paragraph{{[}6.5{]} Section 6.2.2 describes a method for generating
+association rules from frequent itemsets. Propose a more efficient
+method. Explain why it is more efficient than the one proposed there.
+(Hint: Consider incorporating the properties of Exercises 6.3(b), (c)
+into your
+design.)}\label{section-6.2.2-describes-a-method-for-generating-association-rules-from-frequent-itemsets.-propose-a-more-efficient-method.-explain-why-it-is-more-efficient-than-the-one-proposed-there.-hint-consider-incorporating-the-properties-of-exercises-6.3b-c-into-your-design.}
+
+    The section proposes the following method for generating association
+rules from frequent itemsets: - For each frequent itemset l, generate
+all nonempty subsets of l. - For every nonempty subset s of l, output
+the rule ``s -\textgreater{} (l − s)'' if support count(l) ≥ min conf,
+where min conf is the minimum confidence threshold.
+
+While in general, confidence does not have an anti-monotone property
+c(ABC →D) can be larger or smaller than c(AB →D); confidence of rules
+generated from the same itemset do have an anti-monotone property. So
+the example provided in the text: frequent itemset X = \{I1, I2, I5\},
+the resulting association rules:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Rule generated & Confidence\tabularnewline
+\midrule
+\endhead
+\{I1, I2\} -\textgreater{} I5 & confidence = 2/4 = 50\%\tabularnewline
+\{I1, I5\} -\textgreater{} I2 & confidence = 2/2 = 100\%\tabularnewline
+\{I2, I5\} -\textgreater{} I1 & confidence = 2/2 = 100\%\tabularnewline
+I1 -\textgreater{} \{I2, I5\} & confidence = 2/6 = 33\%\tabularnewline
+I2 -\textgreater{} \{I1, I5\} & confidence = 2/7 = 29\%\tabularnewline
+I5 -\textgreater{} \{I1, I2\} & confidence = 2/2 = 100\%\tabularnewline
+\bottomrule
+\end{longtable}
+
+The min confidence is 70\%. The first rule generated \{I1, I2\}
+-\textgreater{} I5 doesn't meet that threshold. Since confidence is
+anti-monotone with respect to the right side of the rule, we know that
+any of the rules containing I5 on the right side will not meet the min
+confidence threshold either. So we can prune the two rules that contain
+I5 on the right: I1 -\textgreater{} \{I2, I5\} and I2 -\textgreater{}
+\{I1, I5\} as a result of the anti-monotone property without any
+calculations.
+
+    \paragraph{{[}6.6{]} A database has five transactions. Let min sup =
+60\% and min conf =
+80\%.}\label{a-database-has-five-transactions.-let-min-sup-60-and-min-conf-80.}
+
+    \paragraph{(a) Find all frequent itemsets using Apriori and FP-growth,
+respectively. Compare the efficiency of the two mining
+processes.}\label{a-find-all-frequent-itemsets-using-apriori-and-fp-growth-respectively.-compare-the-efficiency-of-the-two-mining-processes.}
+
+    \begin{longtable}[]{@{}ll@{}}
+\toprule
+TID & item IDs\tabularnewline
+\midrule
+\endhead
+T100: & {[}'M','O','N','K','E','Y'{]}\tabularnewline
+T200: & {[}'D','O','N','K','E','Y'{]}\tabularnewline
+T300: & {[}'M','A','K','E'{]}\tabularnewline
+T400: & {[}'M','U','C','K','Y'{]}\tabularnewline
+T500: & {[}'C','O','O','K','I','E'{]}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    Apriori (frequent itemsets shown in bold): - Count C1:\\
+\{'M': 3, 'O': 3, 'N': 2, 'K': 5, 'E': 4, 'Y': 3, 'D': 1, 'A': 1, 'U':
+1, 'C': 2, 'I': 1\}
+
+\begin{itemize}
+\item
+  Trim infrequent items from C1 to obtain L1:\\
+  \textbf{L1: \{'M': 3, 'O': 3, 'K': 5, 'E': 4, 'Y': 3\}}
+\item
+  Generate C2:\\
+  {[}('E', 'K'), ('E', 'M'), ('E', 'O'), ('E', 'Y'), ('K', 'M'), ('K',
+  'O'), ('K', 'Y'), ('M', 'O'), ('M', 'Y'), ('O', 'Y'){]}
+\item
+  Count C2:\\
+  \{('E', 'K'): 4, ('E', 'M'): 2, ('E', 'O'): 3, ('E', 'Y'): 2, ('K',
+  'M'): 3, ('K', 'O'): 3, ('K', 'Y'): 3, ('M', 'O'): 1, ('M', 'Y'): 2,
+  ('O', 'Y'): 2\}
+\item
+  Trim infrequent items from C2 to obtain L2:\\
+  \textbf{L2: \{('E', 'K'): 4, ('E', 'O'): 3, ('K', 'M'): 3, ('K', 'O'):
+  3, ('K', 'Y'): 3\}}
+\item
+  Generate C3:\\
+  {[}('E', 'K', 'O'), ('K', 'M', 'O'), ('K', 'M', 'Y'), ('K', 'O',
+  'Y'){]}
+\item
+  Prune C3 based on L2 (infrequent subsets):\\
+  {[}('E', 'K', 'O'){]}
+\item
+  Count C3:\\
+  \{('E', 'K', 'O'): 3\}
+\item
+  Trim infrequent to obtain L3:\\
+  \textbf{L3: \{('E', 'K', 'O'): 3\}}
+\end{itemize}
+
+    FPGrowth:
+
+\begin{itemize}
+\item
+  Count C1:\\
+  \{'M': 3, 'O': 3, 'N': 2, 'K': 5, 'E': 4, 'Y': 3, 'D': 1, 'A': 1, 'U':
+  1, 'C': 2, 'I': 1\}
+\item
+  Trim infrequent items from C1 to obtain L1 and sort:\\
+  \textbf{L1: \{'K': 5, 'E': 4, 'M': 3, 'O': 3, 'Y': 3\}}
+\item
+  Sort transactions in L order and build FPTree:
+
+\begin{verbatim}
+                ROOT
+                  |
+                K : 5
+               /     \
+            E : 4   M : 1
+           /     \     \
+        M : 2   O : 2  Y : 1 
+        /          \
+    O : 1         Y : 1
+     /
+  Y : 1 
+\end{verbatim}
+\item
+  Construct conditional pattern base from the tree
+\item
+  From this build a conditional FPTree for each item, eliminating
+  non-frequent paths.
+\item
+  From this sub tree, generate frequent patterns.
+\end{itemize}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+\begin{minipage}[b]{0.06\columnwidth}\raggedright\strut
+Item\strut
+\end{minipage} & \begin{minipage}[b]{0.36\columnwidth}\raggedright\strut
+Conditional Pattern Base\strut
+\end{minipage} & \begin{minipage}[b]{0.22\columnwidth}\raggedright\strut
+Conditional FPtree\strut
+\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright\strut
+Frequent Patterns Generated\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright\strut
+\{K,E,M,O\}: 1, \{K,E,O\}: 1, \{K,M\}: 1\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright\strut
+\{K: 3\}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright\strut
+\{KY\}: 3\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
+O\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright\strut
+\{K, E, M\}: 1, \{K, E\}: 2\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright\strut
+\{K: 3, E: 3\}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright\strut
+\{KO\}: 3, \{EO\}: 3, \{KEO\}: 3\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
+M\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright\strut
+\{K, E\}: 2, \{K\}: 1\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright\strut
+\{K: 3\}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright\strut
+\{KM\}: 3\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
+E\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright\strut
+\{K\}: 4\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright\strut
+\{K: 4\}\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright\strut
+\{KE\}: 3\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    The FPGrowth process is more efficient. Two major costs associated with
+the Apriori algorithm are: 1.) the need to generate a huge number of
+candidate sets if L1 is long and 2.) the need to scan the database
+repeatedly and check a large set of candidates by pattern matching. The
+FPGrowth algorithms finds frequent itemsets without candidate
+generation. It transforms the problem of finding long frequent patterns
+into searching for shorter ones in much smaller conditional databases
+recursively and then concatenating the suffix. It uses the least
+frequent suffix first, substantially reducing the search cost.
+
+    \paragraph{(b) List all the strong association rules (with support s and
+confidence c) matching the following metarule, where X is a variable
+representing customers, and item i denotes variables representing items
+(e.g., ``A,''
+``B,''):}\label{b-list-all-the-strong-association-rules-with-support-s-and-confidence-c-matching-the-following-metarule-where-x-is-a-variable-representing-customers-and-item-i-denotes-variables-representing-items-e.g.-a-b}
+
+\[∀x∈transaction,buys(X,item1)∧buys(X,item2)->buys(X,item3) [s,c]\]
+
+    The following rules are generated. The two transactions shown in bold
+match the metarule.
+
+    \begin{longtable}[]{@{}lll@{}}
+\toprule
+Rule generated & Support & Confidence\tabularnewline
+\midrule
+\endhead
+\{E\} -\textgreater{} \{K\} & support = 4/5 = 80\% & confidence = 4/4 =
+100\%\tabularnewline
+\{K\} -\textgreater{} \{E\} & support = 4/5 = 100\% & confidence = 4/5 =
+80\%\tabularnewline
+\{O\} -\textgreater{} \{E\} & support = 3/5 = 60\% & confidence = 3/3 =
+100\%\tabularnewline
+\{M\} -\textgreater{} \{K\} & support = 3/5 = 60\% & confidence = 3/3 =
+100\%\tabularnewline
+\{O\} -\textgreater{} \{K\} & support = 3/5 = 60\% & confidence = 3/3 =
+100\%\tabularnewline
+\{Y\} -\textgreater{} \{K\} & support = 3/5 = 60\% & confidence = 3/3 =
+100\%\tabularnewline
+\textbf{\{E,O\} -\textgreater{} \{K\}} & \textbf{support = 3/5 = 60\%} &
+\textbf{confidence = 3/3 = 100\%}\tabularnewline
+\textbf{\{K,O\} -\textgreater{} \{E\}} & \textbf{support = 3/5 = 60\%} &
+\textbf{confidence = 3/3 = 100\%}\tabularnewline
+\{O\} -\textgreater{} \{K, E\} & support = 3/5 = 60\% & confidence = 3/3
+= 100\%\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \paragraph{{[}6.11{]} Most frequent pattern mining algorithms consider
+only distinct items in a transaction. However, multiple occurrences of
+an item in the same shopping basket, such as four cakes and three jugs
+of milk, can be important in transactional data analysis. How can one
+mine frequent itemsets efficiently considering multiple occurrences of
+items? Propose modifications to the well-known algorithms, such as
+Apriori and FP-growth, to adapt to such a
+situation.}\label{most-frequent-pattern-mining-algorithms-consider-only-distinct-items-in-a-transaction.-however-multiple-occurrences-of-an-item-in-the-same-shopping-basket-such-as-four-cakes-and-three-jugs-of-milk-can-be-important-in-transactional-data-analysis.-how-can-one-mine-frequent-itemsets-efficiently-considering-multiple-occurrences-of-items-propose-modifications-to-the-well-known-algorithms-such-as-apriori-and-fp-growth-to-adapt-to-such-a-situation.}
+
+    A simple way to handle this in both the Apriori and FP-growth algorithm
+is to treat each instance of a duplicate item as a unique item. So
+rather than compressing a transaction with 4 cakes and 3 jugs of milk to
+\{cake, milk\} the transaction would be: \{cake\_1, cake\_2, cake\_3,
+cake\_4, milk\_1, milk\_2, milk\_3\}. The benefit of this analysis would
+be you could analyze association rules like, if you buy 2 cartons of
+eggs, how likely are you to buy 2 cartons of milk? The problem with this
+is that it dramatically increases the computational complexity of the
+analysis because the number of unique items increases. Given d itemsets,
+the total number of itemsets = 2\^{}d, and the total possible
+association rules = 3\^{}d + 2\^{}(d+1) + 1. So any increase in d will
+increase the computational complexity of the analysis exponentially. In
+this situation, counting using hash structure would greatly improve the
+efficiency of this analysis. It would also be wise to use FPGrowth over
+Apriori since L1 would likely increase significantly.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

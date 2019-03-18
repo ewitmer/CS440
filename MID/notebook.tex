@@ -1,0 +1,2318 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Midterm Review}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsubsection{Chapter 1: Introduction}\label{chapter-1-introduction}
+
+    \paragraph{Why data mining?}\label{why-data-mining}
+
+    \begin{itemize}
+\item
+  The proliferation of devices collecting data, decreased cost to store
+  data, and increased speed and ability to process data has increased
+  the opportunity to turn large sets of data into knowledge with
+  commercial and societal benefits.
+\item
+  Example: Turning Google's search data on flu symptoms into flu trends
+  faster than traditional reporting systems.
+\end{itemize}
+
+    \paragraph{What is data mining?}\label{what-is-data-mining}
+
+    \begin{itemize}
+\tightlist
+\item
+  Data mining the process of discovering interesting patterns from
+  massive amounts of data. It is extracting non-trivial, previously
+  unknown knowledge from large quantities of data by automated or
+  semi-automated means.
+\item
+  The process is:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{preprocessing}: feature selection, dimensionality reduction,
+    normalization, data subsetting
+  \item
+    \emph{mining}: methods applied to extract patterns
+  \item
+    \emph{postprocessing}: filtering patterns, visualization,
+    interpretation
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{What kind of data can be
+mined?}\label{what-kind-of-data-can-be-mined}
+
+    \begin{itemize}
+\tightlist
+\item
+  While nearly any type of data can be mined, relational and
+  transactional data in databases are common sources.
+\end{itemize}
+
+    \paragraph{What kind of patterns can be
+mined?}\label{what-kind-of-patterns-can-be-mined}
+
+    \begin{itemize}
+\tightlist
+\item
+  Data mining tasks can be classified as:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{descriptive}: find human interpretable patterns that describe
+    the data.
+  \item
+    \emph{predictive}: Use variables to predict unknown future values of
+    other variables.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Descriptive tasks (descriptive, supervised):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{data characterization}: summarizing the data of the class in
+    general terms. For example, summarize the general characteristics of
+    customers who spend more than \$5,000 / yr "big spenders". The
+    general profile may include income, credit, age, etc.
+  \item
+    \emph{data discrimination}: similar to data characterization, but
+    comparing two classes. For example, how does the general profile of
+    a "frequent shopper" differ from an "infrequent shopper".
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Frequent patterns, associations and correlations (predictive,
+  supervised):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{frequent patterns}: patterns that occur frequently in the data
+  \item
+    \emph{association analysis}: a predictive attribute such as 'buy'
+    that repeats in the data.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Classification and regression (predictive, supervised):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{classification}: the process of finding a model that
+    distinguishes data classes or concepts. The process relies on
+    labeled data. Decision trees, neural networks, naive Bayes,
+    k-nearest neighbor are common classification methods. Example: model
+    for predicting creditworthiness (decision tree), classifying a breed
+    of dog (neural network).
+  \item
+    \emph{regression}: similar to classification, but models continuous
+    valued functions, used to predict missing numerical value. Example:
+    predict sales based on ad spend, stock price, wind speed, etc.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Cluster Analysis (descriptive, unsupervised):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{cluster analysis}: finding groups of objects that minimize
+    intra-cluster distance and maximize inter-cluster distance. Does not
+    consult labels. Examples include market segmentation and text
+    similarity analysis.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Outlier analysis:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Data that does not comply with the model. In some situations, such
+    as fraud detection, network invasion, deforestation: anomaly mining
+    is more interesting than the regular occurrences.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Not all patterns are interesting. A pattern is interesting if it is:
+  easily understood, valid on new data, useful and new. Association
+  analysis examples that may be interesting: market basket analysis,
+  alarm diagnosis, medical diagnosis.
+\end{itemize}
+
+    \paragraph{Which technologies are
+used?}\label{which-technologies-are-used}
+
+    \begin{itemize}
+\tightlist
+\item
+  Data mining has incorporated many techniques from other domains such
+  as stats, ML, database systems. Data mining is closely related to all
+  of these disciplines.
+\item
+  It is not uniquely a transformation or application of one of these
+  disciplines but rather an evolution of all of them in response to the
+  need for ``effective, scalable, and flexible data analysis in our
+  society''.
+\item
+  As data sets become massive and diverse, data mining techniques must
+  be computationally efficient, handle various data types and produce
+  effective results. This is distinct from the more constrained and
+  controlled worlds of traditional disciplines such as statistics.
+\end{itemize}
+
+    \paragraph{Major issues in data
+mining}\label{major-issues-in-data-mining}
+
+    \begin{itemize}
+\tightlist
+\item
+  The main challenge presented when mining a huge amount of data is the
+  efficiency and scalability of the data mining algorithm used to store
+  and process the data effectively. Finding an algorithm that can
+  process the data effectively, efficiently and increasingly in
+  real-time.
+\item
+  Another challenge is dealing with the increasing diversity of data
+  types. Data is no longer of a uniform data type and stored neatly in a
+  relational database. It is diverse, dynamic and distributed. One way
+  to deal with these challenges is to utilize parallel and distributed
+  data-intensive mining algorithms.
+\end{itemize}
+
+    \subsubsection{Chapter 2: Getting to Know Your
+Data}\label{chapter-2-getting-to-know-your-data}
+
+    \paragraph{Data objects and attribute
+types}\label{data-objects-and-attribute-types}
+
+    \begin{itemize}
+\tightlist
+\item
+  Data is a collection of objects and their attributes.
+\item
+  A data attribute is a property or characteristic of an object (eye
+  color, income).
+\item
+  A collection of attributes describe an object.
+\item
+  Attribute values can be nominal, binary, ordinal or numeric.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{nominal}: categorical, the values have no meaningful order.
+  \item
+    \emph{binary}: two possible outcomes.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      symmetric: equally likely/valuable such as gender
+    \item
+      asymmetric: one value, such as a positive medical test, is more
+      valuable
+    \end{itemize}
+  \item
+    \emph{ordinal}: categorical, the values have a rank order.
+  \item
+    \emph{numeric}: quantitative, measurable value.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      interval-scaled: relative, no true zero exists (temp, year)
+    \item
+      ratio-scaled: absolute, true zero exists (temp in K, length)
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  The type of an attribute depends on the properties/operations it
+  possesses:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Nominal attribute: distinctness (=, !=)
+  \item
+    Ordinal attribute: distinctness \& order (\textless{},
+    \textgreater{})
+  \item
+    Interval attribute: distinctness, order \& meaningful differences
+    (+, -)
+  \item
+    Ratio attribute: distinctness, order \& meaningful differences and
+    ratios (*, /)
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Discrete vs. continuous variables:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Discrete values are finite or countably infinite (age 0-110)
+  \item
+    Continuous values have real numbers as attributes, typically
+    represented by floating point.
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Types of data sets}\label{types-of-data-sets}
+
+    \begin{itemize}
+\tightlist
+\item
+  Important characteristics of data include:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Dimensionality}: number of attributes
+  \item
+    \emph{Sparsity}: Only presence counts
+  \item
+    \emph{Resolution}: Patterns depend on the scale
+  \item
+    \emph{Size}: Type of analysis may depend on size
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Types of data sets:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Record}: A collection of records, each with a fixed set of
+    attributes. This can be represented by a matrix or a vector.
+    Transaction data is a special type of record data.
+  \item
+    \emph{Graph}: Represented by edges and vertices, and may represent
+    things like molecular structures or websites.
+  \item
+    \emph{Ordered}: May be a sequence of transactions, temporal data,
+    genomic sequence, etc.
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Data quality issues}\label{data-quality-issues}
+
+    \begin{itemize}
+\tightlist
+\item
+  Noise and outliers: For objects, extraneous objects; for attributes:
+  modification of original values. Outliers are objects with
+  considerably different characteristics than the rest of the data set.
+\item
+  Missing values: Information is either not collected or not relevant in
+  all cases.
+\item
+  Duplicate data: same person with multiple entries
+\end{itemize}
+
+    \paragraph{Basic statistical descriptions of
+data}\label{basic-statistical-descriptions-of-data}
+
+    \begin{itemize}
+\tightlist
+\item
+  Measures of central tendency
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{mean}: average
+  \item
+    \emph{median}: middle
+  \item
+    \emph{mode}: most common
+  \item
+    \emph{midrange}: average of max/min
+  \item
+    \emph{negative skew}: long left tail
+  \item
+    \emph{positive skew}: long right tail
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Measures of dispersion of data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{quartiles}: Q1(25th), Q3(75th)
+  \item
+    \emph{interquartile range}: Q3 - Q1
+  \item
+    \emph{five number summary}: min, Q1, median, Q3, max
+  \item
+    \emph{boxplot}: outliers marked (\textgreater{}1.5x IQR), whiskers
+    are min/max, quartiles are marked
+  \item
+    \emph{variance}: sum(x\^{}2)/n - mean\^{}2
+  \item
+    \emph{standard deviation}: sqrt(variance), measures the spread
+    around the mean
+
+    \begin{itemize}
+    \tightlist
+    \item
+      mean +/- 1 sigma: 68\% under normal curve
+    \item
+      mean +/- 2 sigma: 95\% under normal curve
+    \item
+      mean +/- 3 sigma: 99.7\% under normal curve
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Graphic displays of basic statistical descriptions of
+data}\label{graphic-displays-of-basic-statistical-descriptions-of-data}
+
+    \begin{itemize}
+\tightlist
+\item
+  Univariate:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Quantile plot: Sort in ascending order, calculate the fraction of
+    each data point as: f = (i-0.5)/N. Plot x = f-value, y = data
+  \item
+    Quantile-quantile plot: Calculate the quantile of each, plot the
+    data at each f-value against each other.
+  \item
+    Histogram: plot the data distribution in bins
+  \end{itemize}
+\item
+  Bivariate:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Scatter plot: treat each pair as (x, y)
+  \item
+    Correlation: positive, negative or no correlation
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Similarity and dissimilarity
+measures}\label{similarity-and-dissimilarity-measures}
+
+    \begin{itemize}
+\tightlist
+\item
+  Dissimilarity measures:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{nominal}: {[}0,1{]} are 0 for similar objects, 1 for
+    dissimilar objects.
+  \item
+    \emph{ordinal}: d = \textbar{}x-y\textbar{}/(n-1), values are mapped
+    to integers 0 to n-1.
+  \item
+    \emph{interval or ratio}: d = \textbar{}x-y\textbar{}
+  \end{itemize}
+\item
+  Similarity measures:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{nominal}: {[}0,1{]} are 1 for similar objects, 0 for
+    dissimilar objects.
+  \item
+    \emph{ordinal}: s = 1-d
+  \item
+    \emph{interval or ratio}: s = -d, s = 1/(1+d)
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Euclidean distance = \$ \sqrt{\sum_{i=0}^n (x_{k}-y_{k})^2} \$
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Minkowski distance = \$ (\{\sum\emph{\{i=0\}\^{}n
+  (x}\{k\}-y\_\{k\})\textsuperscript{r\})}\frac{1}{r} \$
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  n is the number of dimensions (attributes), r is the dimension.
+\item
+  r = 1: Manhattan distance
+\item
+  r = 2: Euclidean distance
+\item
+  r = infinity: max distance between any attribute max(\textbar{}x1 -
+  x2\textbar{},\textbar{}y1 - y2\textbar{})
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  (?) Mahalanobis distance
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Properties of distance:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    d(x,y) \textgreater{}= 0 (Positive definiteness)
+  \item
+    d(x,y) = d(y,x) (symmetry)
+  \item
+    d(x,z) \textless{}= d(x,y) + d(y,z) (Triangle inequality)
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Properties of similarity:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    max similarity = 1 if x = y
+  \item
+    s(x,y) = s(y,x) (symmetry)
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Proximity for binary
+attributes}\label{proximity-for-binary-attributes}
+
+    \begin{itemize}
+\tightlist
+\item
+  Compute similarities using the following quantities
+
+  \begin{itemize}
+  \tightlist
+  \item
+    f01 = the number of attributes where p was 0 and q was 1
+  \item
+    f10 = the number of attributes where p was 1 and q was 0
+  \item
+    f00 = the number of attributes where p was 0 and q was 0
+  \item
+    f11 = the number of attributes where p was 1 and q was 1
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Simple matching = number of matches / number of attributes
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (f11 + f00) / (f01 + f10 + f11 + f00)
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Jaccard = number of 11 matches / number of non-zero attributes
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (f11) / (f01 + f10 + f11)
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Cosine similarity}\label{cosine-similarity}
+
+    \begin{itemize}
+\tightlist
+\item
+  Good for long sparse data sets the similarity of two documents.
+  Measures the cosine of the angle between two vectors, determines
+  whether they are pointing in roughly the same direction.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    cos(d1, d2) = d1 (dot) d2 /
+    \textbar{}\textbar{}d1\textbar{}\textbar{}
+    \textbar{}\textbar{}d2\textbar{}\textbar{}
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Extended Jaccard Coefficient (Tanimoto)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (x dot
+    y)/(\textbar{}\textbar{}x\textbar{}\textbar{}\textsuperscript{2+\textbar{}\textbar{}y\textbar{}\textbar{}}2
+    - x dot y)
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Correlation and covariance}\label{correlation-and-covariance}
+
+    \begin{itemize}
+\tightlist
+\item
+  Correlation measures the linear relationship between objects
+
+  \begin{itemize}
+  \tightlist
+  \item
+    cov(x,y) = (1/n-1) x sum(x deviation * y deviation)
+  \item
+    corr = cov/(sx x sy)
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Information Based Measures}\label{information-based-measures}
+
+    \begin{itemize}
+\tightlist
+\item
+  The more certain an outcome, the less information that it contains and
+  vice-versa
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If a coin has 2 heads, a flip provides no additional information.
+  \item
+    Information is inversely related to the probability of an outcome.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  This is commonly measured as entropy: -\$ \sum\emph{\{i=1\}\^{}n
+  p}\{i\}log\_\{2\}p\_\{i\}\$
+\item
+  Entropy is between 0 and \(log_{2}n\)
+\item
+  Joint entropy: H(X) + H(Y) - H(x,Y)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  (?) General approach for combining similarities.
+\end{itemize}
+
+    \paragraph{Measures of density}\label{measures-of-density}
+
+    \begin{itemize}
+\tightlist
+\item
+  Euclidean Density: grid based approach
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Divide region into cells of equal volume, count the points in each
+    cell
+  \end{itemize}
+\item
+  Euclidean Density: center-based approach
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The number of points within a specified radius.
+  \end{itemize}
+\end{itemize}
+
+    \subsubsection{Chapter 3: Data
+Preprocessing}\label{chapter-3-data-preprocessing}
+
+    \begin{itemize}
+\tightlist
+\item
+  Data quality depends on: accuracy, completeness, consistency,
+  timeliness, believability, interpretability.
+\item
+  The major tasks in data preprocessing include:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Data cleaning: fill missing values, smooth noisy data, remove
+    ouliers, resolve inconsistency.
+  \item
+    Data integration: combining various data sets / sources
+  \item
+    Data reduction: Compressing data, removing irrelevant attributes
+  \item
+    Numerosity reduction: replace data with smaller representation.
+  \item
+    Data transformation: normalization, data discretization, concept
+    hierarchy
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Data Cleaning}\label{data-cleaning}
+
+    \begin{itemize}
+\tightlist
+\item
+  Missing values
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Ignore it, fill it in manually, use a global constant to fill it,
+    use a central tendency for the attribute, use a central tendency
+  \end{itemize}
+\item
+  Noisy data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Smoothing by bin means: each value replaced by the mean of the bin
+  \item
+    Smoothing by bin medians, smoothing by bin boundaries: each value is
+    replaced by max or min of the bin.
+  \item
+    Regression: find best line to fit the data
+  \item
+    Outlier analysis: use cluster analysis
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Data integration}\label{data-integration}
+
+    \begin{itemize}
+\tightlist
+\item
+  Merging of various data sources.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Entity identification problem (matching up sources)
+  \item
+    Redundancy - can be detected by correlation analysis (chi-square or
+    correlation coefficient)
+  \item
+    (?) chi-square calculation
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Data reduction}\label{data-reduction}
+
+    \begin{itemize}
+\tightlist
+\item
+  Aggregation: combining two or more attributes into a single attribute.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Smaller in data, but maintains most of the integrity of the original
+    data
+  \item
+    Change of scale from weeks to years, cities to states, etc. (concept
+    hierarchy)
+  \item
+    Purpose: data reduction, change of scale, more stable data
+  \end{itemize}
+\item
+  Histograms:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    equal width vs. equal frequency
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Sampling}\label{sampling}
+
+    \begin{itemize}
+\tightlist
+\item
+  Processing the entire data set is too expensive or time consuming
+
+  \begin{itemize}
+  \tightlist
+  \item
+    sample must be representative
+  \item
+    simple random sampling w/ or w/out replacement
+  \item
+    cluster sample
+  \item
+    stratified sampling: ensures a representative sample when data is
+    skewed.
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Reduce dimensionality}\label{reduce-dimensionality}
+
+    \begin{itemize}
+\tightlist
+\item
+  When dimensionality increases, data becomes sparse and definitions of
+  density become less meaningful
+\item
+  Purpose of reducing dimensionality: avoid curse of dimensionality,
+  reduce time and memory to mine, allow data to be visualized.
+\item
+  Techniques:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Principal components analysis (PCA): find a projection that captures
+    the largest amount of variation in the data
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Feature subset selection}\label{feature-subset-selection}
+
+    \begin{itemize}
+\tightlist
+\item
+  Remove redundant features, irrelevant features, especially for
+  classification.
+\item
+  Trim based on information gain
+\end{itemize}
+
+    \paragraph{Feature creation}\label{feature-creation}
+
+    \begin{itemize}
+\tightlist
+\item
+  Create new attributes that can capture the important information in a
+  data set more efficiently than the original methodologies:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    feature extraction, feature construction, mapping data to new space
+  \item
+    (?) Fourier and wavelet transformation
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Discretization}\label{discretization}
+
+    \begin{itemize}
+\tightlist
+\item
+  The process of converting a continuous attribute into an ordinal one
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Commonly used in classification, most work best with only a few
+    possible variables
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Binarization}\label{binarization}
+
+    \begin{itemize}
+\tightlist
+\item
+  Maps continuous or categorical values to binary variables,
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Typically used for association analysis (asymmetric binary
+    attributes)
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Attribute transformation}\label{attribute-transformation}
+
+    \begin{itemize}
+\tightlist
+\item
+  Function maps the entire set of values to new values
+
+  \begin{itemize}
+  \tightlist
+  \item
+    log(x)
+  \item
+    normalization, standardization
+  \item
+    example: seasonality accounts for much of correlation of plant
+    growth
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Normalization}\label{normalization}
+
+    \begin{itemize}
+\tightlist
+\item
+  Max/min nomalization: (v - min) / (max - min) * (new\_max - new\_min)
+  + new\_min
+
+  \begin{itemize}
+  \tightlist
+  \item
+    range likely {[}0,1{]}
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Z-score normalization (v - avg)/sigma
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Normalization by decimal scaling: v = v / 10\^{}j range {[}0,1)
+\end{itemize}
+
+    \paragraph{Concept hierarchy for nominal
+data}\label{concept-hierarchy-for-nominal-data}
+
+    \begin{itemize}
+\tightlist
+\item
+  May be generated based on the number of distinct values per attribute
+\end{itemize}
+
+    \subsubsection{Chapter 6}\label{chapter-6}
+
+    \begin{itemize}
+\tightlist
+\item
+  Frequent pattern: a pattern (set of items, subsequences,
+  substructures) that occur frequently in a data set.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    What products are purchased together? (basket data analysis)
+  \item
+    What products are purchased after purchasing a product? (cross
+    marketing)
+  \item
+    Web log analysis, DNA sequence analysis
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Market basket analysis:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(support(A \rightarrow B) = P(A \cup B) = count(A \cup B) / n\)
+  \item
+    \(confidence(A \rightarrow B) = P(A | B) = count(A \cup B) / count(A)\)
+  \item
+    Find all frequent itemsets
+  \item
+    Generate all strong association rules from each frequent itemset
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Closed and max sets
+
+  \begin{itemize}
+  \tightlist
+  \item
+    An itemset X is closed if X is frequent and there exists no
+    super-pattern Y \(\supset\) X with the same support as X
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Y must have the same support as X, this is not a lossy compression
+      and contains complete information
+    \end{itemize}
+  \item
+    An itemset X is maximal if X is frequent and there exists no
+    super-pattern Y \(\supset\) X and Y is frequent
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Y only has to be frequent, this is a lossy compression, doesn't
+      contain complete information
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Apriori: Finding Frequent Itemsets by Confined Candidate
+Generation}\label{apriori-finding-frequent-itemsets-by-confined-candidate-generation}
+
+    \begin{itemize}
+\tightlist
+\item
+  Downward closure property of frequent patterns: any subset of a
+  frequent itemset must be frequent.
+\item
+  Scan the database to get all frequent 1-itemsets
+\item
+  Generate candidates of length (k+1) from L1.
+\item
+  Prune the itemsets that are not frequent.
+\item
+  Generate candidates of length (k+1) if (k-1) = (k-1).
+\item
+  Look at all (k-1) subsets of the candidate and prune any that are not
+  frequent
+\item
+  Scan for count of itemset lenght k and repeat until empty.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Problems with Apriori: multiple scans of the database, many
+  candidates, support counting
+
+  \begin{itemize}
+  \tightlist
+  \item
+    breadth first, huge number of candidates
+  \end{itemize}
+\item
+  (?) Improvements to the algorithm: Candidate itemsets stored in a hash
+  tree.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Others include: Transaction reduction, partitioning, sampling
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Pattern-Growth Approach: Mining Frequent Patterns Without
+Candidate
+Generation}\label{pattern-growth-approach-mining-frequent-patterns-without-candidate-generation}
+
+    \begin{itemize}
+\tightlist
+\item
+  Depth first search
+\item
+  Avoids explicit candidate generation
+\item
+  Grow long patterns from short ones using locally frequent items
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Construct an FP Tree
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Find frequent 1 itemset
+  \item
+    order it
+  \item
+    scan each transaction and create a tree based on the sorted list.
+  \end{itemize}
+\item
+  Create conditional pattern bases from the paths up the tree
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For each pattern base, create a conditional FP Tree
+  \item
+    From the conditional FP Tree, generate frequent patterns.
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Benefits of the FP Tree structure
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Completeness, compactness,
+  \item
+    Divide-and-conquer:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Decompose both the mining task and DB according to the frequent
+      patterns obtained so far
+    \item
+      Lead to focused search of smaller databases
+    \item
+      No candidate generation, no candidate test
+    \item
+      Compressed database: FP-tree structure
+    \item
+      No repeated scan of entire database
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Which patterns are
+interesting?}\label{which-patterns-are-interesting}
+
+    \begin{itemize}
+\tightlist
+\item
+  Sometimes, association does not measure the real strength (or lack of
+  strength) of the correlation and implication between A and B. They
+  don't filter out uninteresting association rules.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Lift: \(P(A \cup B) / (P(A) * P(B))\) \textgreater{}1 = positive
+  correlation; \textless{}1 = negative
+\item
+  Chi-square
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Four other measures defined have the following property: Its value is
+  only influenced by the supports of A, B, and A ∪ B, or more exactly,
+  by the conditional probabilities of P(A\textbar{}B) and
+  P(B\textbar{}A), but not by the total number of transactions.
+\item
+  Another common property is that each measure ranges from 0 to 1, and
+  the higher the value, the closer the relationship between A and B
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  A measure is null-invariant if its value is free from the influence of
+  null-transactions. Null-invariance is an important property for
+  measuring association patterns in large transaction databases. Among
+  the six discussed measures in this subsection, only lift and χ2 are
+  not null-invariant measures
+\end{itemize}
+
+    \subsubsection{Chapter 8}\label{chapter-8}
+
+    \begin{itemize}
+\tightlist
+\item
+  Supervised learning: training data with labels indicating the class of
+  the observation (classification)
+\item
+  Unsupervised learning: the class labels of training data is not known,
+  looking to establish classes (clustering)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Prediction problems:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Classification: predicts category
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Typical applications: loan approval, medical diagnosis, fraud
+      detection, web categorization
+    \end{itemize}
+  \item
+    Numeric prediction: regression analysis
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Classification is a two-step process.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Model construction: use the samples/tuples as the training set
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Model represents classification rules, decision trees,
+      mathematical formula
+    \end{itemize}
+  \item
+    Model usage: used to classify unknown objects
+
+    \begin{itemize}
+    \tightlist
+    \item
+      estimate accuracy: rate of test samples that are correctly
+      classified. Test set is independent to avoid overfitting.
+    \item
+      if the accuracy is acceptable, it is used to classify new data.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Decision tree induction}\label{decision-tree-induction}
+
+    \begin{itemize}
+\tightlist
+\item
+  Flowchart like structure where every node represents a test of an
+  attribute and each node represents an outcome.
+\item
+  Decision trees are popular because they don't require any domain
+  knowledge or parameter setting so they are appropriate for
+  exploration. They are simple and intuitive. Frequently used in
+  medicine and astronomy.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Basic algorithm (a greedy, non-backtracking algorithm):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Tree is constructed in top-down recursive divide and conquer manner
+  \item
+    At the start, all training examples are at the root.
+  \item
+    All attributes are categorical
+  \item
+    Attributes are partitioned recursively based on selected attributes
+  \item
+    Test attributes are selected on the basis of information gain.
+  \item
+    Stop if:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      all samples for a node belong to the same class
+    \item
+      there are no attributes left, there are no samples left
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Information gain}\label{information-gain}
+
+    \begin{itemize}
+\tightlist
+\item
+  Entropy is a measure of the uncertainty
+\item
+  p is the probability that a tuple in D belongs to C:
+  \textbar{}C\textbar{}/\textbar{}D\textbar{}
+\item
+  Expected information (entropy) needed to classify tuple: -\$
+  \sum\emph{\{i=1\}\^{}n p}\{i\}log\_\{2\}p\_\{i\}\$
+\item
+  Information needed after: weighted average entropy for each of the new
+  partitions
+\item
+  Information gain: Info(D) - Info(D)after\_partition
+\item
+  When working with continuous data, an optimum split-point must be
+  found
+\item
+  Problem with information gain: tends to favor splits with a higher
+  number of values.
+\end{itemize}
+
+    \paragraph{Gain ratio}\label{gain-ratio}
+
+    \begin{itemize}
+\tightlist
+\item
+  (?) Gain ratio normalizes gain with split info:
+\item
+  GainRatio = Gain(A)/SplitInfo(A)
+\item
+  Problem with gain ratio: Tends to prefer unbalanced splits where one
+  partition is much smaller than the other.
+\end{itemize}
+
+    \paragraph{Gini Index}\label{gini-index}
+
+    \begin{itemize}
+\tightlist
+\item
+  split data into two subsets
+\item
+  gini(D) = 1 - \(\sum_{j=1}^np_j^2\)
+\item
+  gini(D) = weighted average gini post split
+\item
+  need to enumerate all the possible splitting points (all possible
+  binary subsets)
+\item
+  Problem with gini index: biased towards multivaried attributes and
+  difficulty when number of classes is large
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  A tree may have too many branches, may reflect anomalies due to noise
+  or outliers
+\item
+  No one method is measurably more effective than another, they all have
+  biases
+\item
+  Two approaches to avoid overfitting:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    prepruning: halt early if gain is below a threshold
+  \item
+    postpruning: remove branches from a fully grown tree
+  \end{itemize}
+\item
+  Problem with the decision tree is storing the large data set in
+  memory.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (?) RainForest framework: builds a list of (attribute, value,
+    class\_label)
+  \item
+    BOAT bootstraps smaller trees into a bigger tree
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Bayesian Classification}\label{bayesian-classification}
+
+    \begin{itemize}
+\tightlist
+\item
+  Assumes class-conditional independence, which simplifies the
+  calculation (why it's called Bayes)
+\item
+  It is a statistical classifier - predicts class membership
+  probabilities
+\item
+  Performance is a standard of optimal decision making.
+\item
+  Incremental: each training set can increase/decrease the probability
+  that a hypothesis is correct.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Bayes Theorem: P(H\textbar{}X) = {[}P(X\textbar{}H) x P(H){]} / P(X)
+\item
+  Maximum of P(C\textbar{}X) for all classes
+\item
+  Practical difficulty: requires initial knowledge of many probabilities
+  involving significant computational cost.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Since P(X) is constant, only P(X\textbar{}C) x P(C) needs to be
+  maximized. If class probabilities are not known, only P(X\textbar{}C)
+  needs to be maximized.
+\item
+  P(X\textbar{}C) is the product of all the individual attribute
+  conditional probabilities
+\item
+  Each conditional probability must be non-zero, use a Laplacian
+  correction, adding 1 to each case.
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Advantages: easy to implement, good results in most cases.
+\item
+  Disadvantages: Assumes conditional independence, dependencies likely
+  exist but can't be modeled.
+\end{itemize}
+
+    \paragraph{Rule-Based Classification}\label{rule-based-classification}
+
+    \begin{itemize}
+\tightlist
+\item
+  Rules are easier to understand than large trees; one rule is created
+  for each path of the tree
+\item
+  Rules are mutually exclusive and exhaustive
+\item
+  Rule antecedent/precondition vs rule consequent
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Coverage = (tuples covered by the rule) / (number of tuples in D)
+\item
+  Accuracy = (tuples correctly identified) / (tuples covered by the
+  rule)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  If more than one rule is triggered during classification, need a
+  strategy to deal with it:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    size ordering: assign to the most attributes
+  \item
+    class-based ordering: decreasing order of prevalence or cost of
+    misclassification
+  \item
+    rule-based ordering: make a priority list
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Sequential covering method}\label{sequential-covering-method}
+
+    \begin{itemize}
+\tightlist
+\item
+  IF-THEN rules can be extracted directly from the data without building
+  a tree using a sequential covering method.
+\item
+  Rules are learned one at a time. Each time a rule is learned the
+  tuples covered by the rules are removed
+\item
+  Learn the best rule for the current class, use a greedy depth first
+  search to do this
+\item
+  (?) FOIL considers/favors both coverage and accuracy
+\item
+  FOIL\_Prune prunes if higher for pruned R than R
+\end{itemize}
+
+    \paragraph{Model evaluation and
+selection}\label{model-evaluation-and-selection}
+
+    \begin{itemize}
+\tightlist
+\item
+  Use test data set when measuring accuracy
+\item
+  Methods for estimating accuracy:
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Confusion matrix (prdicted on X, actual on Y):
+\end{itemize}
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+& YES & NO & TOTAL &\tabularnewline
+\midrule
+\endhead
+YES & TP & FN & P &\tabularnewline
+NO & FP & TN & N &\tabularnewline
+& P' & N' & P+N &\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \begin{itemize}
+\tightlist
+\item
+  Accuracy: \% of tuples that are correctly classified = (TP + TN)/(P +
+  N)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Most effective when generally balanced
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Error rate: misclassification rate: 1- accuracy = (FP + FN)/(P+N)
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Sensitivity: True positive recognition rate = (TP)/P
+\item
+  Specificity: True Negative recognition rate = (TF)/F
+\item
+  Accuracy = sensitivity x (P/(P+N)) + specificity x (N/(P+N))
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Precision: measure of exactness, what \% of tuples that the classifier
+  labeled as positive actually are: TP/(TP+FP)
+\item
+  Recall: measure of completeness, what \% of positive tuples did the
+  classifier label as positive: TP/P
+\item
+  tends to be an inverse relationship, tells us how many tuples were
+  misclassified outside of the class.
+\item
+  F measure: harmonic mean of precision and recall: F = (2 x precision x
+  recall) / (precision + recall), weights precision twice as much as
+  recall
+\item
+  can change 2 to (1+ b\textsuperscript{2)/(b}2)
+\end{itemize}
+
+    \paragraph{Holdout and random}\label{holdout-and-random}
+
+    \begin{itemize}
+\tightlist
+\item
+  Holdout method: training set = 2/3 of data, test set = 1/3 of data
+\item
+  Random sampling: repeat holdout k times, accuracy is average
+\end{itemize}
+
+    \paragraph{Cross validation}\label{cross-validation}
+
+    \begin{itemize}
+\tightlist
+\item
+  Cross-validation: randomly partition the data into k mutually
+  exclusive subsets. At ith iteration, use Di as test, others as
+  training
+\item
+  Leave one out, k-folds where k = number of tuples, for small sized
+  data
+\item
+  Stratified cross validation: folds are stratified so the class dist
+  reflects the total data
+\end{itemize}
+
+    \paragraph{Bootstrap}\label{bootstrap}
+
+    \begin{itemize}
+\tightlist
+\item
+  Works well with small data sets, tends to be overly optimistic
+\item
+  Samples the training tuples uniformly with replacement
+\item
+  (1-1/d)\^{}d as d-\textgreater{} large, 0.368 end up not in the
+  sample, 0.632 are in the sample
+\item
+  Repeat k times to increase accuracy
+\end{itemize}
+
+    \paragraph{Model selection using statistical tests of
+significance}\label{model-selection-using-statistical-tests-of-significance}
+
+    \begin{itemize}
+\tightlist
+\item
+  Null hypothesis is that M1 and M2 are the same.
+\item
+  Assume t-distribution, k-1 degrees of freedom
+\item
+  if t \textgreater{} z (sigma / 2) or t \textless{} -z, reject the null
+\item
+  If we reject the null, then difference between M1 and M2 is
+  statistically significant and chose model with lower error rate
+\item
+  Formulas for pairwise comparison
+\end{itemize}
+
+    \paragraph{Receiver operator curves}\label{receiver-operator-curves}
+
+    \begin{itemize}
+\tightlist
+\item
+  For visual comparison of classification models
+\item
+  Shows the trade-off between true positive rate and false positive rate
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The cost associated with false negative (not diagnosing a positive
+    cancer) vs false positive (diagnosing cancer incorrectly)
+  \end{itemize}
+\item
+  Area under the curve is the accuracy of the model
+\item
+  Rank the tuples in order of most likely to belong to the positive
+  class down (use naive bayes to get probability of class)
+\item
+  determine a threshold t for where the model is positive
+\item
+  Plot by moving up for true positive, right for false positive
+\item
+  (?) A model with perfect accuracy will have an area of 1
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Issues affecting model selection: accuracy, speed, robustness,
+  scalability, interpretability
+\end{itemize}
+
+    \paragraph{Techniques to improve classification
+accuracy}\label{techniques-to-improve-classification-accuracy}
+
+    \begin{itemize}
+\tightlist
+\item
+  Ensemble methods: use a combination of models to increase accuracy
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Bagging: each training set is a bootstrap sample, sampling with
+  replacement is used, averages the prediction over a collection of
+  classifiers
+\item
+  Boosting and AdaBoost: weighted vote with a collection of classifiers,
+  more accurate but risks overfitting
+\item
+  (?) Random Forest: Each classifier in the ensemble is a decision tree
+  and is generated using a random selection of attributes at each node
+  to determine the split. Comparable accuracy to AdaBoost, more robust
+  to outliers and errors
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Dealing with class imbalanced sets: oversampling, under-sampling,
+  threshold moving
+\end{itemize}
+
+    \subsubsection{Chapter 10: Cluster
+Analysis}\label{chapter-10-cluster-analysis}
+
+    \begin{itemize}
+\tightlist
+\item
+  Cluster: a group of data objects similar to each other, dissimilar to
+  other groups analysis is a
+\item
+  Cluster analysis: unsupervised learning, can be used as a stand alone
+  method or as a preprocessing technique
+\item
+  Preprocessing: may be used to preprocess for classification or
+  attribute selection or outlier detection
+\item
+  Use in applications: biology, marketing, fraud detection
+\item
+  Good clustering:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    high cohesiveness: within cluster
+  \item
+    distinctive between clusters
+  \end{itemize}
+\item
+  Requirements:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    scalability: clustering on all of the data, not a sample
+  \item
+    ability to deal with different data types
+  \item
+    requirements for domain knowledge
+  \item
+    ability to deal with noisy data
+  \end{itemize}
+\item
+  Considerations:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    single level vs. hierarchical
+  \item
+    completely separate or allow for overlap
+  \item
+    how to define similarity
+  \item
+    subspace clustering
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Basic clustering methods}\label{basic-clustering-methods}
+
+    \begin{itemize}
+\tightlist
+\item
+  Partitioning methods: distance based, uses iterative relocation
+  techniques to move objects from one partition to another. Works well
+  finding spherical clusters in small-mid sized databases
+\item
+  Hierarchical methods: can be bottoms up (start with many clusters and
+  merge) or top down (start with one cluster and split). Once a merge or
+  step has been done, it can't be undone.
+\item
+  Density based methods: Continue to grow the cluster as long as the
+  density is above some threshold. Can find clusters of arbitrary shape.
+\item
+  Grid based: fast processing time
+\end{itemize}
+
+    \paragraph{Partitioning methods}\label{partitioning-methods}
+
+    \begin{itemize}
+\tightlist
+\item
+  K-means: partition objects into k groups, then repeat: compute the
+  centroid, assign the data points to the nearest centroid. until no
+  change
+
+  \begin{itemize}
+  \tightlist
+  \item
+    strengths: efficient O(tkn)
+  \item
+    weaknesses: often terminates at a local optimal point, only
+    applicable to continuous n-dimensional space, need to specify k in
+    advance, sensitive to outliers, not good with non-convex shapes,
+    sensitive to seed
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  K-medoids: instead of taking mean, take center data point, partition
+  the data, test a different non-medoid point, if it reduces the SSE,
+  then reassign the medoid. PAM works well for small data sets, but it
+  is not efficient for large data sets.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    CLARA is PAM but using samples
+  \item
+    (?) CLARANS
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Hierarchical Methods}\label{hierarchical-methods}
+
+    \begin{itemize}
+\tightlist
+\item
+  Divides data into a tree of clusters, does not require K as an input
+\item
+  Agglomerative: starts with the individual vs. Divisive: starts as one
+  cluster
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  AGNES: merge nodes that are the nearest neighbor single link (least
+  dissimilarity)
+\item
+  DIANA: opposite of AGNES, start as one
+\item
+  Similarity is measured as the closest pair between the two clusters
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Measures of distance between clusters:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    single link: nearest neighbor, minimum distance
+  \item
+    complete link: maximum distance, largest distance from one element
+    to another
+  \item
+    average: avg distance between an element in one cluster and element
+    in another
+  \item
+    centroid: distance between centroids
+  \item
+    medoid: distance between medoids
+  \end{itemize}
+\item
+  Major weaknesses: cannot be undone and does not scale well
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  (?) BIRCH overcomes these two weaknesses, scalability and inability to
+  undo what was previously done, however it only handles numeric data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    uses clustering feature to summarize the cluster, and CF tree to
+    represent the hierarchy
+  \item
+    CF = 
+  \item
+    Can find the centroid, radius, diameter
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Chameleon: graph based and two-phase:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    use graph partitioning algo to cluster objects in small sub-clusters
+  \item
+    use agglomerative hierarchical clustering algo to find genuine
+    clusers by combining sub clusters
+  \item
+    used for clustering complex objects, however the processing cost is
+    high 0(n\^{}2)
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  Issues with hierarchical clustering methods: choosing a good distance
+  measure is nontrivial, cannot have any missing attribute values,
+  optimization goal not clear: local search
+\item
+  Probabilistic clustering: aims to overcome these using probabilistic
+  models to measure distances between cluster
+\item
+  use a generative model, assume the data set adopts a common
+  distribution function, find Mu and sigma that maximum likelihood the
+  set of data points is generated
+\item
+  same efficiency, but can handle missing data
+\end{itemize}
+
+    \paragraph{Density-based Methods}\label{density-based-methods}
+
+    \begin{itemize}
+\tightlist
+\item
+  Clustering based on density (local clustering)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Discover clusters of arbitrary shape
+  \item
+    Can handle noise
+  \item
+    One scan, but needs a termination condition
+  \end{itemize}
+\item
+  DBSCAN: discover clusters of arbitrary shape, cluster: max set of
+  density connected-points
+
+  \begin{itemize}
+  \tightlist
+  \item
+    EPS: max radius of the neighborhood
+  \item
+    MinPts: min points in Eps neighborhood
+  \item
+    If it is not a core point but can be reached it is a boarder point
+  \item
+    Directly density reachable: if it belongs to the neighborhood of a
+    core point
+  \item
+    Density reachable: chain regions to reach
+  \item
+    Computational complexity if spatial index is used, O(n log n)
+    otherwise, O(n\^{}2)
+  \item
+    sensitive to setting of parameters
+  \item
+    Algo: select point p, retrieve all points density reachable from p
+    wrt eps and minPts. if core, cluster is formed, else, visit next
+    point
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  OPTICS: extends DBSCAN but much less sensitive to parameter setting
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Density based clusters are monotonic with respect to the
+    neighborhood threshold
+  \item
+    The deeper the valley, the denser the cluster, reachability plot
+  \item
+    core distance: the smallest distance to cover e points
+  \item
+    reachability distance: min radius that makes p density reachable
+    from q
+
+    \begin{itemize}
+    \tightlist
+    \item
+      max(core-distance, distance(q,p))
+    \end{itemize}
+  \item
+    O(n log n) if indexed
+  \end{itemize}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  (?) DENCLUE -
+\end{itemize}
+
+    \paragraph{Grid based methods}\label{grid-based-methods}
+
+    \begin{itemize}
+\tightlist
+\item
+  partition the data space into cells to form a grid structure, when you
+  find a dense region in the cells,
+\item
+  Efficient and scalable, uniform but hard to handle irregular
+  distributions, locality, curse of dimensionality
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  STING: Spacial area is divided into rectangular cells at different
+  levels of resolution to form a tree structure
+\item
+  Statistical measures for each cell. Calculate the likelihood the cell
+  is relevant at some confidence level, only children at the relevant
+  cells are explored
+\item
+  Query independent, complexity is O(K), k\textless{}\textless{} N
+\item
+  disadvantage: probabilistic nature may imply a loss of accuracy for
+  query processing
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  CLIQUE: density based and grid based, connect dense units into a
+  cluster. Starts from a low dimension
+\item
+  Start in 1D, Find dense region in each subspace and generate their
+  minimal discriptions, then find promising candidates in 2D, repeat in
+  levelwise manner in higher dimensional space in Apriori manner, then
+  find the connected dense units
+\item
+  Strengths: automatically finds subspaces of the highest dimensionality
+  as long as high density clusters exist, insensitive to the order of
+  records, scales linearly
+\item
+  Weakness: quality of the data depends on the resolution of the gris
+\end{itemize}
+
+    \paragraph{Assessing Clustering}\label{assessing-clustering}
+
+    \begin{itemize}
+\tightlist
+\item
+  Assessing if non-random structure exists in the data by measuring
+  probability the data is generated by uniform data distribution
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Tested with Hopkins Statistic
+  \end{itemize}
+\item
+  Determine the number of clusters: empirical method (Sqrt(n/2)), elbow
+  method, cross validation method
+\item
+  Measuring quality: extrinsic (supervised) vs. intrinsic (unsupervised)
+\item
+  Quality is good if it is: pure, complete, pro 'rag bag', small cluster
+  preservation
+\end{itemize}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

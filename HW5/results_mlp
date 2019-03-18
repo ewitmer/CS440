@@ -1,0 +1,247 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a -R
+Relation:     data
+Instances:    165
+Attributes:   4
+              ﻿DEPT
+              CLASS
+              AGE
+              INCOME
+Test mode:    split 80.0% train, remainder test
+
+=== Classifier model (full training set) ===
+
+Sigmoid Node 0
+    Inputs    Weights
+    Threshold    5.077849919304933
+    Node 2    -0.7988700079898031
+    Node 3    -3.255330730049272
+    Node 4    -1.6849103640762988
+    Node 5    -1.9722357346589914
+    Node 6    -0.6077028566801435
+    Node 7    0.6877457905152887
+    Node 8    -0.4982510040846006
+    Node 9    -2.614381465228298
+    Node 10    -2.1185097501440233
+Sigmoid Node 1
+    Inputs    Weights
+    Threshold    -5.077776341999069
+    Node 2    0.8299328096639222
+    Node 3    3.2668069308453083
+    Node 4    1.6310381053303158
+    Node 5    1.9751693228544365
+    Node 6    0.5808522121372134
+    Node 7    -0.6837530207251153
+    Node 8    0.48462900732590103
+    Node 9    2.61506242622315
+    Node 10    2.148468070719643
+Sigmoid Node 2
+    Inputs    Weights
+    Threshold    -0.0862034998667669
+    Attrib ﻿DEPT=sales    0.012600993238492767
+    Attrib ﻿DEPT=systems    0.319119309122466
+    Attrib ﻿DEPT=marketing    0.01847411578253665
+    Attrib ﻿DEPT=secretary    -0.19171693697429357
+    Attrib AGE=31…35    -0.3122482391062598
+    Attrib AGE=26…30    0.5835492730772197
+    Attrib AGE=21…25    0.7542810828120732
+    Attrib AGE=41…45    -0.2516336438106409
+    Attrib AGE=36…40    -0.38342085512708035
+    Attrib AGE=46…50    -0.2092825794255801
+    Attrib INCOME=46K…50K    -0.5719453876964095
+    Attrib INCOME=26K…30K    0.3499069945630242
+    Attrib INCOME=31K…35K    0.8599736495383073
+    Attrib INCOME=66K…70K    -0.6757140926272822
+    Attrib INCOME=41K…45K    0.473822646564802
+    Attrib INCOME=36K…40K    -0.23159494351598092
+Sigmoid Node 3
+    Inputs    Weights
+    Threshold    0.025346272016822675
+    Attrib ﻿DEPT=sales    -0.32864194581758743
+    Attrib ﻿DEPT=systems    0.5920642195263257
+    Attrib ﻿DEPT=marketing    0.20156508031761194
+    Attrib ﻿DEPT=secretary    -0.6007585551542151
+    Attrib AGE=31…35    -0.6062600733319661
+    Attrib AGE=26…30    1.2852738771258672
+    Attrib AGE=21…25    1.5699313688961292
+    Attrib AGE=41…45    -0.7509412765773987
+    Attrib AGE=36…40    -1.030908644764205
+    Attrib AGE=46…50    -0.730265531815039
+    Attrib INCOME=46K…50K    -1.2139777194307755
+    Attrib INCOME=26K…30K    0.483501016200008
+    Attrib INCOME=31K…35K    1.8622117941871028
+    Attrib INCOME=66K…70K    -1.8354040575268296
+    Attrib INCOME=41K…45K    1.170525103478124
+    Attrib INCOME=36K…40K    -0.7178887222234803
+Sigmoid Node 4
+    Inputs    Weights
+    Threshold    0.04652778619838557
+    Attrib ﻿DEPT=sales    -0.18370043339262998
+    Attrib ﻿DEPT=systems    0.38317269323577663
+    Attrib ﻿DEPT=marketing    0.06872941128984153
+    Attrib ﻿DEPT=secretary    -0.36964728943767017
+    Attrib AGE=31…35    -0.4057412390102152
+    Attrib AGE=26…30    0.9276241611072672
+    Attrib AGE=21…25    1.0970233668154248
+    Attrib AGE=41…45    -0.4471506059015922
+    Attrib AGE=36…40    -0.6263550280798209
+    Attrib AGE=46…50    -0.42646235986262765
+    Attrib INCOME=46K…50K    -0.8282809963284244
+    Attrib INCOME=26K…30K    0.3958174335925042
+    Attrib INCOME=31K…35K    1.332524172687337
+    Attrib INCOME=66K…70K    -1.140083203428786
+    Attrib INCOME=41K…45K    0.6956100621626619
+    Attrib INCOME=36K…40K    -0.5110689382012422
+Sigmoid Node 5
+    Inputs    Weights
+    Threshold    -0.022426765433450544
+    Attrib ﻿DEPT=sales    -0.19306856622245017
+    Attrib ﻿DEPT=systems    0.4779361865593969
+    Attrib ﻿DEPT=marketing    0.1689891678478432
+    Attrib ﻿DEPT=secretary    -0.42621411888213545
+    Attrib AGE=31…35    -0.4673106858551398
+    Attrib AGE=26…30    0.9470242446874013
+    Attrib AGE=21…25    1.1610232481211782
+    Attrib AGE=41…45    -0.5615663551917706
+    Attrib AGE=36…40    -0.7644067381327753
+    Attrib AGE=46…50    -0.5476332961238085
+    Attrib INCOME=46K…50K    -0.9307277394440311
+    Attrib INCOME=26K…30K    0.41051435192121083
+    Attrib INCOME=31K…35K    1.4298906672631693
+    Attrib INCOME=66K…70K    -1.3146083724285467
+    Attrib INCOME=41K…45K    0.8709027909228544
+    Attrib INCOME=36K…40K    -0.5146412094931448
+Sigmoid Node 6
+    Inputs    Weights
+    Threshold    -0.11246408558877943
+    Attrib ﻿DEPT=sales    0.030943733941151224
+    Attrib ﻿DEPT=systems    0.270716603435774
+    Attrib ﻿DEPT=marketing    0.003653113313281154
+    Attrib ﻿DEPT=secretary    -0.11375860909842504
+    Attrib AGE=31…35    -0.22835596759234988
+    Attrib AGE=26…30    0.5702668345109629
+    Attrib AGE=21…25    0.6152697926035566
+    Attrib AGE=41…45    -0.18140268271770174
+    Attrib AGE=36…40    -0.2299351254321752
+    Attrib AGE=46…50    -0.17777278513441386
+    Attrib INCOME=46K…50K    -0.5029538515802375
+    Attrib INCOME=26K…30K    0.3585084705191637
+    Attrib INCOME=31K…35K    0.7343350310882027
+    Attrib INCOME=66K…70K    -0.503385189288903
+    Attrib INCOME=41K…45K    0.4170501341819823
+    Attrib INCOME=36K…40K    -0.1531040898735906
+Sigmoid Node 7
+    Inputs    Weights
+    Threshold    0.1435996874869009
+    Attrib ﻿DEPT=sales    0.030884493032113148
+    Attrib ﻿DEPT=systems    -0.03824500136998554
+    Attrib ﻿DEPT=marketing    -0.17224823545899579
+    Attrib ﻿DEPT=secretary    -0.11578251384928082
+    Attrib AGE=31…35    -0.04578807233404877
+    Attrib AGE=26…30    -0.09398675311810643
+    Attrib AGE=21…25    -0.10098280549550245
+    Attrib AGE=41…45    -0.07971900177279584
+    Attrib AGE=36…40    -0.12736173523232835
+    Attrib AGE=46…50    -0.09413156744851586
+    Attrib INCOME=46K…50K    -0.16651353883117007
+    Attrib INCOME=26K…30K    -0.03599597271606738
+    Attrib INCOME=31K…35K    -0.09811350455767674
+    Attrib INCOME=66K…70K    -0.07394911962561217
+    Attrib INCOME=41K…45K    -0.2137018716869016
+    Attrib INCOME=36K…40K    -0.06538005656135164
+Sigmoid Node 8
+    Inputs    Weights
+    Threshold    -0.0703768654788316
+    Attrib ﻿DEPT=sales    0.061932218451711055
+    Attrib ﻿DEPT=systems    0.18996592605127255
+    Attrib ﻿DEPT=marketing    0.04851228462146849
+    Attrib ﻿DEPT=secretary    -0.07753869898783242
+    Attrib AGE=31…35    -0.22139508044791156
+    Attrib AGE=26…30    0.48627242241548224
+    Attrib AGE=21…25    0.609495748500533
+    Attrib AGE=41…45    -0.10289434094536443
+    Attrib AGE=36…40    -0.22298678451458487
+    Attrib AGE=46…50    -0.14035104663170994
+    Attrib INCOME=46K…50K    -0.4836930970715097
+    Attrib INCOME=26K…30K    0.3411383177144811
+    Attrib INCOME=31K…35K    0.7354872646431406
+    Attrib INCOME=66K…70K    -0.384951710678591
+    Attrib INCOME=41K…45K    0.3757631217517896
+    Attrib INCOME=36K…40K    -0.09983684200290625
+Sigmoid Node 9
+    Inputs    Weights
+    Threshold    0.016058930899953652
+    Attrib ﻿DEPT=sales    -0.2819281713315409
+    Attrib ﻿DEPT=systems    0.5355771588258467
+    Attrib ﻿DEPT=marketing    0.1766652263286509
+    Attrib ﻿DEPT=secretary    -0.49328926901478104
+    Attrib AGE=31…35    -0.5385435118436851
+    Attrib AGE=26…30    1.13963252507339
+    Attrib AGE=21…25    1.367112281700739
+    Attrib AGE=41…45    -0.6635552565499632
+    Attrib AGE=36…40    -0.9116240401660539
+    Attrib AGE=46…50    -0.6515554242201197
+    Attrib INCOME=46K…50K    -1.0697808162408655
+    Attrib INCOME=26K…30K    0.44780455572548156
+    Attrib INCOME=31K…35K    1.6680581330567874
+    Attrib INCOME=66K…70K    -1.593657485188909
+    Attrib INCOME=41K…45K    1.0555492088761846
+    Attrib INCOME=36K…40K    -0.6457927285160273
+Sigmoid Node 10
+    Inputs    Weights
+    Threshold    0.055144735855013886
+    Attrib ﻿DEPT=sales    -0.19220178251074038
+    Attrib ﻿DEPT=systems    0.507332887135344
+    Attrib ﻿DEPT=marketing    0.1393434843250276
+    Attrib ﻿DEPT=secretary    -0.45433208104598705
+    Attrib AGE=31…35    -0.49774153597824977
+    Attrib AGE=26…30    1.0117806818794417
+    Attrib AGE=21…25    1.2301685688075434
+    Attrib AGE=41…45    -0.5648255767286016
+    Attrib AGE=36…40    -0.7788934770237215
+    Attrib AGE=46…50    -0.5608808550266501
+    Attrib INCOME=46K…50K    -0.9605860742985308
+    Attrib INCOME=26K…30K    0.39450429042784957
+    Attrib INCOME=31K…35K    1.4922512282746334
+    Attrib INCOME=66K…70K    -1.3967736509967557
+    Attrib INCOME=41K…45K    0.946613023758079
+    Attrib INCOME=36K…40K    -0.532971431498159
+Class senior
+    Input
+    Node 0
+Class junior
+    Input
+    Node 1
+
+
+Time taken to build model: 0.2 seconds
+
+=== Evaluation on test split ===
+
+Time taken to test model on test split: 0 seconds
+
+=== Summary ===
+
+Correctly Classified Instances          33              100      %
+Incorrectly Classified Instances         0                0      %
+Kappa statistic                          1     
+Mean absolute error                      0.0042
+Root mean squared error                  0.0053
+Relative absolute error                  0.962  %
+Root relative squared error              1.1207 %
+Total Number of Instances               33     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 1.000    0.000    1.000      1.000    1.000      1.000    1.000     1.000     senior
+                 1.000    0.000    1.000      1.000    1.000      1.000    1.000     1.000     junior
+Weighted Avg.    1.000    0.000    1.000      1.000    1.000      1.000    1.000     1.000     
+
+=== Confusion Matrix ===
+
+  a  b   <-- classified as
+ 11  0 |  a = senior
+  0 22 |  b = junior
+

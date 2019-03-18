@@ -438,10 +438,11 @@ the rule ``s -\textgreater{} (l − s)'' if support count(l) ≥ min conf,
 where min conf is the minimum confidence threshold.
 
 While in general, confidence does not have an anti-monotone property
-c(ABC →D) can be larger or smaller than c(AB →D); confidence of rules
-generated from the same itemset do have an anti-monotone property. So
-the example provided in the text: frequent itemset X = \{I1, I2, I5\},
-the resulting association rules:
+c(ABC-\textgreater{}D) can be larger or smaller than
+c(AB-\textgreater{}D); confidence of rules generated from the same
+itemset do have an anti-monotone property. So the example provided in
+the text: frequent itemset X = \{I1, I2, I5\}, the resulting association
+rules:
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
@@ -465,6 +466,16 @@ confidence threshold either. So we can prune the two rules that contain
 I5 on the right: I1 -\textgreater{} \{I2, I5\} and I2 -\textgreater{}
 \{I1, I5\} as a result of the anti-monotone property without any
 calculations.
+
+On the left hand side, the proof in exercise 6.3(c) shows that for a
+frequent itemset I, the confidence of the rule ``s′
+-\textgreater{}(l−s′)'' cannot be more than the confidence of
+``s-\textgreater{}(l−s),'' where s′ is a subset of s. Once again, the
+first rule generated \{I1, I2 -\textgreater{} I5\} doesn't meet that
+threshold. Rules with subsets of \{I1, I2\} on the left hand side can
+also be pruned. We prune the two rules that contain I1 and/or I2 on the
+left: I1 -\textgreater{} \{I2, I5\} and I2 -\textgreater{} \{I1, I5\}
+utilizing this enhancement as well.
 
     \paragraph{{[}6.6{]} A database has five transactions. Let min sup =
 60\% and min conf =

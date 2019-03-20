@@ -334,6 +334,4 @@ test = {'T100':['M','O','N','K','E','Y'],
         'T500':['C','O','O','K','I','E']}
 
 a = Apriori(test, .6, .8)
-print(a.find_frequent_itemsets())
-#all = a.generate_all_rules()
-#print(all)
+print(a.generate_all_rules())

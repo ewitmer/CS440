@@ -1,4 +1,5 @@
 import math
+import itertools
 from operator import itemgetter
         
 class FPNode:
@@ -38,7 +39,7 @@ class FPTree:
         self.f1_sorted = self.generate_F1_sorted()
         self.node_links = self.generate_node_links()
         self.tree = self.process_all_transactions(self.data, self.head)
-        self.all_fp = {}
+        self.all_frequent = {}
         self.itemset = []
         self.prefix = []
         self.cp_tree = None
@@ -255,11 +256,8 @@ class FPTree:
         data = self.build_data_from_cp(cp)
         return data
 
-    def add_to_all_fp(self, fp):
-        self.all_fp.update(fp)
-
-    #def find_frequent_itemsets(self):
-
+    def add_to_all_frequent(self, fp):
+        self.all_frequent.update(fp)
 
     @staticmethod
     def mine_data(tree, support_count, confidence_pct, prefix=set(), fp={}):
@@ -273,12 +271,102 @@ class FPTree:
                     p = list(prefix)
                     k = list(key)
                     p.extend(k)
-                    d = p
+                    d = sorted(p)
                     fp.update({tuple(d): value})
                 next_tree.mine_data(next_tree, support_count, confidence_pct, prefix, fp)
             prefix = set() 
         return fp
-        
+
+    def mine_all_data(self):
+        self.add_to_all_frequent(self.pruned_candidates)
+        sub_tree_fp = FPTree.mine_data( self, 
+                                        self.support_count, 
+                                        self.confidence_pct, 
+                                        set(), 
+                                        self.all_frequent)
+        self.add_to_all_frequent(sub_tree_fp)
+        return self.all_frequent
+
+    def itemset_difference(self, itemset, subset):
+        """Generates a list of two tuples: [(s), (l-s)].
+        Args:
+          itemset: a frequent itemset.
+          subset: a subset of the frequent itemset.
+        Raises:
+          TypeError: If itemset is not of type tuple.
+          TypeError: If subset is not of type tuple.
+        Returns:
+          The list: [s, (l-s)].
+        """    
+        if (type(itemset)) != tuple:
+            raise TypeError('itemset needs to be a tuple')
+        if (type(subset)) != tuple:
+            raise TypeError('subset needs to be a tuple')        
+
+        diff = [tuple(sorted(subset)), tuple(sorted(set(itemset).difference(set(subset))))]
+
+        if len(diff[0]) == 1:
+            diff[0] = ''.join(diff[0])
+
+        if len(diff[1]) == 1:
+            diff[1] = ''.join(diff[1])        
+
+        return diff
+    
+    def generate_candidate_rules(self, freq_itemset):
+        """Generates a list of all rules candidates for an itemset: [(s), (l-s)].
+        Args:
+          freq_itemset: a frequent itemset in the form of a tuple.
+        Returns:
+          All possible rules for the itemset.
+        """
+        k = len(freq_itemset) 
+        all_rules = []
+
+        for i in range(k-1,0,-1):  # loop through k choose i
+            combinations = list(itertools.combinations(freq_itemset, i))  # get all combinations
+            candidates = list(map(lambda x: self.itemset_difference(freq_itemset, x), combinations))
+            all_rules.extend(candidates)
+
+        return all_rules
+
+    def get_support_confidence(self, rule_set, curr_support_count):
+        support = curr_support_count / self.length
+        confidence = curr_support_count / self.all_frequent[rule_set[0]]
+
+        rule_set.extend([support, confidence])
+        return rule_set
+
+    def prune_candidate_rules(self, freq_itemset, itemset_count):
+        """Tests the candidates for one frequent itemset and prunes < min_confidence
+        Args:
+          freq_itemset: a frequent itemset in the form of a tuple.
+          itemset_count: count of the itemset in the data
+        Raises:
+          ValueError: If freq_itemset is not of type tuple.
+        Returns:
+          All possible rules for the itemset.
+        """    
+
+        if self.confidence_pct > 1 or self.confidence_pct < 0:
+            raise ValueError('support_pct must be in the range [0,1]') 
+
+        max_count = math.floor(itemset_count / self.confidence_pct)  # max denominator
+        all_rules = self.generate_candidate_rules(freq_itemset)  # generate all rules from itemset
+        pruned_rules = list(filter(lambda x: self.all_frequent[(x[0])] <= max_count, all_rules))  # filter out right side
+        list(map(lambda x: self.get_support_confidence(x, itemset_count), pruned_rules))  # add support, confidence to rules
+
+        return pruned_rules
+
+    def generate_all_rules(self):
+        self.mine_all_data()
+        associations = [] 
+        for key, value in self.all_frequent.items():
+            pruned_rules = self.prune_candidate_rules(key, value)
+            associations.extend(pruned_rules)
+
+        return associations
+
 
 test = {'T100':['M','O','N','K','E','Y'],
         'T200':['D','O','N','K','E','Y'],
@@ -287,6 +375,5 @@ test = {'T100':['M','O','N','K','E','Y'],
         'T500':['C','O','O','K','I','E']}
 
 fp = FPTree(test, 3, .8)
-print(fp.mine_data(fp, 3, .8))
-
+print(fp.generate_all_rules())
 

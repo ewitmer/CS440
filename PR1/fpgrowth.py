@@ -1,6 +1,5 @@
 import math
 from operator import itemgetter
-
         
 class FPNode:
     def __init__(self, name, parent_node, count):
@@ -11,11 +10,14 @@ class FPNode:
         self.children = {}
     
     def incremenet_count(self, n):
-        self.count +=n
+        self.count += n
         
     def add_child(self, node):
         self.children.update({node.name: node})
-        
+
+    def get_parent(self):
+        return self.parent_node
+
     def set_lateral_node(self, node):
         self.lateral_node = node
         
@@ -23,24 +25,20 @@ class FPNode:
         print ('\t'*level, self.name, ':\t', self.count)
         for key, node in self.children.items():
             node.print_node(level+1)
-            
-    def get_parent(self):
-        return self.parent_node
-
         
 class FPTree:
-    def __init__(self, data, support_pct, confidence_pct):
+    def __init__(self, data, support_count, confidence_pct):
         self.data = self.remove_duplicates(data)
-        self.support_pct = support_pct
         self.confidence_pct = confidence_pct
         self.length = len(data)
-        self.support_count = self.get_min_support(data, support_pct)
+        self.support_count = support_count
         self.head = FPNode(None, None, 0)
         self.current_node = self.head 
+        self.pruned_candidates = None
         self.f1_sorted = self.generate_F1_sorted()
         self.node_links = self.generate_node_links()
         self.tree = self.process_all_transactions(self.data, self.head)
-        self.all_fp = []
+        self.all_fp = {}
         self.itemset = []
         self.prefix = []
         self.cp_tree = None
@@ -102,6 +100,7 @@ class FPTree:
         for k in remove:  # remove all items that don't meet support count
             del candidates[k]
 
+        self.pruned_candidates = candidates
         return candidates
 
     def generate_F1_sorted(self):
@@ -192,26 +191,26 @@ class FPTree:
         Returns:
           The FPTree.
         """ 
-        for key, value in data.items():
-            self.process_transaction(value, count)
-            self.current_node = head
-        return head
+        for key, value in data.items():  # for every transaction in the data set
+            self.process_transaction(value, count)  # process the transaction
+            self.current_node = head  # reset current node to head
+        return head  # return head
 
     def get_tree(self):
         """Method to get tree.
         Returns:
           The FPTree.
         """ 
-        return self.head
+        return self.head  # return head
     
     def print_tree(self):        
         """Method to print tree.
         """ 
-        self.head.print_node()
+        self.head.print_node() # print tree
         
-
     def get_path_from_node(self, node):
-        """Takes in a single node from tree, returns the prefix path, conditional count and conditional.
+        """Takes in a single node from tree, returns the prefix path, 
+            conditional count and conditional.
         Args:
             node: node on FPTree
         Returns:
@@ -219,13 +218,11 @@ class FPTree:
         """
         curr = node
         count = node.count
-        conditional = node.name   # update with prefix path
         path = []
         while curr.parent_node.name != None:
             path.insert(0, curr.parent_node.name)
             curr = curr.parent_node
-        return (path, count, conditional)
-            
+        return (path, count)     
             
     def get_conditional_pattern(self, node):
         """Takes in a node, loops through lateral nodes returns list of prefix paths, conditional counts and conditional.
@@ -244,32 +241,44 @@ class FPTree:
             cp.append(path)
         return cp
             
-    def process_cp(self, cp):
-        """Takes in a list of nodes from tree, returns conditional pattern tree.
-        Args:
-            cp: list of conditional paths with counts
-        Returns:
-            Prefix path tree.
-        """
-        start = FPNode(None, None, 0)
-        self.current_node = start
-        for p in cp:
-            self.process_transaction(p[0],p[1])
-            self.current_node = start
-        start.print_node()
-        self.cp_tree = start
-        return start
-        
-    def get_frequent_patterns(self, start):
-        if start.children != {}:
-            for key, node in start.children.items():
+    def build_data_from_cp(self, cp):
+        cp_data = {}
+        count = 0
+        for i in range(len(cp)):
+            for j in range(cp[i][1]):
+                cp_data.update({count:cp[i][0]})
+                count+=1
+        return cp_data
 
-            #    if(node.count >= 1):#self.support_count): 
-                self.itemset.append(node.name)
-                self.get_frequent_patterns(node)
-                self.all_fp.append(self.itemset)
-             #   print(self.all_fp)
-                self.itemset = []
+    def build_data_from_node(self, node):
+        cp = self.get_conditional_pattern(node)
+        data = self.build_data_from_cp(cp)
+        return data
+
+    def add_to_all_fp(self, fp):
+        self.all_fp.update(fp)
+
+    #def find_frequent_itemsets(self):
+
+
+    @staticmethod
+    def mine_data(tree, support_count, confidence_pct, prefix=set(), fp={}):
+        for item in tree.f1_sorted[::-1]:
+            prefix.add(item)
+            header_node = tree.node_links[item][0]
+            conditional_data = tree.build_data_from_node(header_node)
+            next_tree = FPTree(conditional_data, support_count, confidence_pct)
+            if next_tree.head.children != {}:
+                for key, value in next_tree.pruned_candidates.items():
+                    p = list(prefix)
+                    k = list(key)
+                    p.extend(k)
+                    d = p
+                    fp.update({tuple(d): value})
+                next_tree.mine_data(next_tree, support_count, confidence_pct, prefix, fp)
+            prefix = set() 
+        return fp
+        
 
 test = {'T100':['M','O','N','K','E','Y'],
         'T200':['D','O','N','K','E','Y'],
@@ -277,8 +286,7 @@ test = {'T100':['M','O','N','K','E','Y'],
         'T400':['M','U','C','K','Y'], 
         'T500':['C','O','O','K','I','E']}
 
-fp = FPTree(test, .6, .8)
+fp = FPTree(test, 3, .8)
+print(fp.mine_data(fp, 3, .8))
 
-print(fp.f1_sorted)
-path = (fp.get_conditional_pattern(fp.node_links.get('M')[0]))
-start= fp.process_cp(path)
+

@@ -1,0 +1,39 @@
+=== RESULTS ===
+
+Algorithm:	AprioriParition
+Count:		34
+
+Finished in 1.04 secondsMale: 21790
+<=50K: 24720
+United-States: 29170
+White: 27816
+cl_0: 31042
+<40h: 22980
+cg_0: 29849
+Private: 22696
+<40hUnited-States: 20414
+<40hcl_0: 22079
+<=50KUnited-States: 21999
+<=50KWhite: 20699
+<=50Kcl_0: 23974
+Malecl_0: 20640
+United-StatesWhite: 25621
+United-Statescl_0: 27791
+Whitecl_0: 26470
+<40hcg_0: 21423
+<=50Kcg_0: 23685
+United-Statescg_0: 26699
+Whitecg_0: 25407
+cg_0cl_0: 28330
+Privatecg_0: 20964
+Privatecl_0: 21714
+<=50KUnited-Statescl_0: 21325
+United-StatesWhitecl_0: 24349
+<40hcg_0cl_0: 20522
+<=50KUnited-Statescg_0: 21068
+<=50Kcg_0cl_0: 22939
+United-StatesWhitecg_0: 23369
+United-Statescg_0cl_0: 25320
+Whitecg_0cl_0: 24061
+<=50KUnited-Statescg_0cl_0: 20394
+United-StatesWhitecg_0cl_0: 22097

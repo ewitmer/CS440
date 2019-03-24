@@ -1,6 +1,7 @@
 import math
 import itertools
 
+
 class Apriori:
     def __init__(self, data, support_count, confidence_pct):
         self.data = self.remove_duplicates(data)
@@ -9,6 +10,7 @@ class Apriori:
         self.confidence_pct = confidence_pct
         self.support_count = support_count
         self.all_frequent = self.find_frequent_itemsets()
+        self.associations = self.generate_all_rules()
 
     def remove_duplicates(self, data):
         """Remove duplicates in transactions.
@@ -21,11 +23,11 @@ class Apriori:
           """
         if (type(data)) != dict:
             raise TypeError('Data needs to be in dictionary format')
-       
+
         for key, value in data.items():
             data[key] = list(set(value))
-        
-        return data 
+
+        return data
 
     def get_min_support(self, data, support_pct):
         """Returns minimum support count of a data set.
@@ -40,10 +42,10 @@ class Apriori:
     """
         if (type(data)) != dict:
             raise TypeError('Data needs to be in dictionary format')
-        
+
         if support_pct > 1 or support_pct < 0:
             raise ValueError('support_pct must be in the range [0,1]')
-        
+
         return math.ceil(len(data) * support_pct)
 
     def prune_itemsets(self, candidates):
@@ -56,14 +58,15 @@ class Apriori:
           ValueError: If the support_count is not a positive number
         Returns:
           The frequent itemset.
-        """ 
+        """
         if (type(candidates)) != dict:
             raise TypeError('Data needs to be in dictionary format')
 
         if self.support_count < 0:
             raise ValueError('support_count must be positive')
 
-        remove = [key for key, value in candidates.items() if value < self.support_count]    
+        remove = [key for key, value in candidates.items() if value <
+                  self.support_count]
         for k in remove:  # remove all items that don't meet support count
             del candidates[k]
 
@@ -77,23 +80,23 @@ class Apriori:
           TypeError: If the data is not of type dict.
         Returns:
           The count required to meet the threshold of frequent itemset.
-        """    
+        """
         if (type(self.data)) != dict:
             raise TypeError('Data needs to be in dictionary format')
 
         if (type(self.support_count)) != int:
-            raise TypeError('support_count needs to be an integer')    
+            raise TypeError('support_count needs to be an integer')
 
-        freq_data = {}  # new dict to store item count    
+        freq_data = {}  # new dict to store item count
 
-        for key, value in self.data.items():  # for each item in the transaction        
+        for key, value in self.data.items():  # for each item in the transaction
             for i in range(len(value)):   # if the key is in the new dict
-                if (value[i] in freq_data):               
+                if (value[i] in freq_data):
                     freq_data[value[i]] += 1  # increment
-                else:          
+                else:
                     freq_data[value[i]] = 1  # else add with count of one
 
-        self.prune_itemsets(freq_data) 
+        self.prune_itemsets(freq_data)
 
         return freq_data  # return the new dict
 
@@ -105,24 +108,25 @@ class Apriori:
           TypeError: If the data is not of type dict.
         Returns:
           A list of the possible candidates (tuples) of length k+1.
-        """     
+        """
         if (type(freq_data)) != dict:
             raise TypeError('Data needs to be in dictionary format')
 
-        k_frequent = sorted(list(freq_data.keys())) # sort Lk freq itemset alphabetically
+        # sort Lk freq itemset alphabetically
+        k_frequent = sorted(list(freq_data.keys()))
         for i in range(len(k_frequent)):
-          if (isinstance(k_frequent[i], str)):
-            l = (k_frequent[i],) 
-            k_frequent[i] = l
-            
-        k1_candidates = []  # L(k+1) candidates    
+            if (isinstance(k_frequent[i], str)):
+                l = (k_frequent[i],)
+                k_frequent[i] = l
 
-        for i in range(len(k_frequent)):        
-            for j in range(i+1,len(k_frequent)):  # for every combination of current
-                if (k_frequent[i][:-1]==k_frequent[j][:-1]):  # if (k-1) == (k-1)
+        k1_candidates = []  # L(k+1) candidates
+
+        for i in range(len(k_frequent)):
+            for j in range(i+1, len(k_frequent)):  # for every combination of current
+                if (k_frequent[i][:-1] == k_frequent[j][:-1]):  # if (k-1) == (k-1)
                     prefix = k_frequent[i]
-                    suffix = k_frequent[j][-1]  # new candidate = k + k[-1]              
-                    k1_candidates.append((*prefix, suffix))              
+                    suffix = k_frequent[j][-1]  # new candidate = k + k[-1]
+                    k1_candidates.append((*prefix, suffix))
 
         return k1_candidates  # return k+1 candidates
 
@@ -136,14 +140,14 @@ class Apriori:
           TypeError: If k is not of type integer.
         Returns:
           A list length k of k-1 length subsets.
-        """    
+        """
         if (type(candidate)) != tuple:
             raise TypeError('candidate needs to be a tuple')
 
         if (type(k)) != int:
             raise TypeError('k needs to be an integer')
 
-        return list(itertools.combinations(candidate,k-1))
+        return list(itertools.combinations(candidate, k-1))
 
     def has_infrequent_subset(self, subsets, freq_data):
         """Check if candidate as an infrequent subset of length k-1.
@@ -155,7 +159,7 @@ class Apriori:
           TypeError: If freq_data is not of type dict.
         Returns:
           True if the list contains an infrequent subset, False if it doesn't.
-        """ 
+        """
         for subset in subsets:
             if subset not in freq_data:
                 return True
@@ -183,7 +187,8 @@ class Apriori:
             return candidates
 
         for i in reversed(range(len(candidates))):  # for all candidates of length k
-            subsets = self.get_all_subsets(candidates[i], k)  # get all subsets of length k-1
+            # get all subsets of length k-1
+            subsets = self.get_all_subsets(candidates[i], k)
             if (self.has_infrequent_subset(subsets, freq_data)):  # if any subsets are not freq
                 candidates.remove(candidates[i])
 
@@ -208,7 +213,7 @@ class Apriori:
 
         data_count = {}
 
-        for key, value in self.data.items():       
+        for key, value in self.data.items():
             for candidate in candidates:
                 if set(candidate).issubset(set(value)):
                     if (candidate in data_count):
@@ -227,28 +232,31 @@ class Apriori:
           ValueErorr: If the support_pct is outside of the range [0,1]
         Returns:
           A dict of all frequent itemsets.
-        """    
+        """
         if (type(self.data)) != dict:
             raise TypeError('Data needs to be in dictionary format')
 
         if self.support_pct > 1 or self.support_pct < 0:
-            raise ValueError('support_pct must be in the range [0,1]')       
+            raise ValueError('support_pct must be in the range [0,1]')
 
         all_freq = {}
 
-        frequent = self.generate_F1() # generate L1 freqent
+        frequent = self.generate_F1()  # generate L1 freqent
         all_freq.update(frequent)  # update dict
-        candidates = self.candidate_generation(frequent)  # generate L2 candidates
+        candidates = self.candidate_generation(
+            frequent)  # generate L2 candidates
 
-        while (candidates != []):  
-            candidates = self.candidate_pruning(candidates, frequent)  # prune candidates
+        while (candidates != []):
+            candidates = self.candidate_pruning(
+                candidates, frequent)  # prune candidates
             count = self.candidate_count(candidates)  # support counting
             frequent = self.prune_itemsets(count)  # candidate elimination
             all_freq.update(frequent)  # update frequent itemset dict
-            candidates = self.candidate_generation(frequent)  # generate new candidates
+            candidates = self.candidate_generation(
+                frequent)  # generate new candidates
 
         return all_freq
-    
+
     def itemset_difference(self, itemset, subset):
         """Generates a list of two tuples: [(s), (l-s)].
         Args:
@@ -259,22 +267,23 @@ class Apriori:
           TypeError: If subset is not of type tuple.
         Returns:
           The list: [s, (l-s)].
-        """    
+        """
         if (type(itemset)) != tuple:
             raise TypeError('itemset needs to be a tuple')
         if (type(subset)) != tuple:
-            raise TypeError('subset needs to be a tuple')        
+            raise TypeError('subset needs to be a tuple')
 
-        diff = [tuple(sorted(subset)), tuple(sorted(set(itemset).difference(set(subset))))]
+        diff = [tuple(sorted(subset)), tuple(
+            sorted(set(itemset).difference(set(subset))))]
 
         if len(diff[0]) == 1:
             diff[0] = ''.join(diff[0])
 
         if len(diff[1]) == 1:
-            diff[1] = ''.join(diff[1])        
+            diff[1] = ''.join(diff[1])
 
         return diff
-    
+
     def generate_candidate_rules(self, freq_itemset, k):
         """Generates a list of all rules candidates for an itemset: [(s), (l-s)].
         Args:
@@ -284,9 +293,11 @@ class Apriori:
         """
         all_rules = []
 
-        for i in range(k-1,0,-1):  # loop through k choose i
-            combinations = list(itertools.combinations(freq_itemset[0], i))  # get all combinations
-            candidates = list(map(lambda x: self.itemset_difference(freq_itemset[0], x), combinations))
+        for i in range(k-1, 0, -1):  # loop through k choose i
+            combinations = list(itertools.combinations(
+                freq_itemset[0], i))  # get all combinations
+            candidates = list(map(lambda x: self.itemset_difference(
+                freq_itemset[0], x), combinations))
             all_rules.extend(candidates)
 
         return all_rules
@@ -307,29 +318,32 @@ class Apriori:
           ValueError: If freq_itemset is not of type tuple.
         Returns:
           All possible rules for the itemset.
-        """    
+        """
 
         if self.confidence_pct > 1 or self.confidence_pct < 0:
-            raise ValueError('support_pct must be in the range [0,1]') 
+            raise ValueError('support_pct must be in the range [0,1]')
 
-        max_count = math.floor(itemset_count / self.confidence_pct)  # max denominator
-        all_rules = self.generate_candidate_rules(freq_itemset, k)  # generate all rules from itemset
-        pruned_rules = list(filter(lambda x: self.all_frequent[(x[0])] <= max_count, all_rules))  # filter out right side
-        list(map(lambda x: self.get_support_confidence(x, itemset_count), pruned_rules))  # add support, confidence to rules
+        max_count = math.floor(
+            itemset_count / self.confidence_pct)  # max denominator
+        all_rules = self.generate_candidate_rules(
+            freq_itemset, k)  # generate all rules from itemset
+        pruned_rules = list(filter(lambda x: self.all_frequent[(
+            x[0])] <= max_count, all_rules))  # filter out right side
+        # add support, confidence to rules
+        list(map(lambda x: self.get_support_confidence(
+            x, itemset_count), pruned_rules))
 
         return pruned_rules
 
-
     def generate_all_rules(self):
 
-        associations = [] 
-        for key, value in self.all_frequent.items(): 
+        associations = []
+        for key, value in self.all_frequent.items():
             if (isinstance(key, str)):
-                k= 1
+                k = 1
             else:
                 k = len(key)
             pruned_rules = self.prune_candidate_rules([key], value, k)
             associations.extend(pruned_rules)
-
+        self.associations = associations
         return associations
-

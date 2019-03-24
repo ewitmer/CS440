@@ -1,11 +1,29 @@
 from apriori import Apriori
+from fpgrowth import FPTree, FPNode
 
-test = {'T100':['M','O','N','K','E','Y'],
-        'T200':['D','O','N','K','E','Y'],
-        'T300':['M','A','K','E'],
-        'T400':['M','U','C','K','Y'], 
-        'T500':['C','O','O','K','I','E']}
+def test_algos(rules_a, rules_fp):
+        for rule in rules_a:
+                if rule in rules_fp:
+                        rules_fp.remove(rule)
+                else: 
+                        return False
+                
+        if len(rules_fp) == 0:
+                return True
+        else: 
+                return False
 
-a = Apriori(test, .6, .8)
-all = a.generate_all_rules()
-print(all)
+test = {'T100':['Mood','Only','N','Kale','Ear','Yes'],
+        'T200':['D','Only','N','Kale','Ear','Yes'],
+        'T300':['Mood','A','Kale','Ear'],
+        'T400':['Mood','U','C','Kale','Yes'], 
+        'T500':['C','Only','Only','Kale','I','Ear']}
+
+a = Apriori(test, 2, .8)
+fp = FPTree(test, 2, .8)
+all_a = a.generate_all_rules()
+all_fp = fp.generate_all_rules()
+
+print("Asserts both algorithms generate the same rule set: ",test_algos(all_a, all_fp))
+
+

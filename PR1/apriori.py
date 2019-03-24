@@ -2,17 +2,16 @@ import math
 import itertools
 
 class Apriori:
-    def __init__(self, data, support_pct, confidence_pct):
+    def __init__(self, data, support_count, confidence_pct):
         self.data = self.remove_duplicates(data)
-        self.support_pct = support_pct
-        self.confidence_pct = confidence_pct
         self.length = len(data)
-        self.support_count = self.get_min_support(data, support_pct)
+        self.support_pct = support_count / self.length
+        self.confidence_pct = confidence_pct
+        self.support_count = support_count
         self.all_frequent = self.find_frequent_itemsets()
 
     def remove_duplicates(self, data):
         """Remove duplicates in transactions.
-
         Args:
           data: A dict of {key: transactionID, value: transaction items}.
         Raises:
@@ -30,7 +29,6 @@ class Apriori:
 
     def get_min_support(self, data, support_pct):
         """Returns minimum support count of a data set.
-
         Args:
             data: A dict of {key: transactionID, value: transaction items}.
             support_pct: minimum support required to be defined as frequent.
@@ -112,6 +110,11 @@ class Apriori:
             raise TypeError('Data needs to be in dictionary format')
 
         k_frequent = sorted(list(freq_data.keys())) # sort Lk freq itemset alphabetically
+        for i in range(len(k_frequent)):
+          if (isinstance(k_frequent[i], str)):
+            l = (k_frequent[i],) 
+            k_frequent[i] = l
+            
         k1_candidates = []  # L(k+1) candidates    
 
         for i in range(len(k_frequent)):        
@@ -272,19 +275,18 @@ class Apriori:
 
         return diff
     
-    def generate_candidate_rules(self, freq_itemset):
+    def generate_candidate_rules(self, freq_itemset, k):
         """Generates a list of all rules candidates for an itemset: [(s), (l-s)].
         Args:
           freq_itemset: a frequent itemset in the form of a tuple.
         Returns:
           All possible rules for the itemset.
         """
-        k = len(freq_itemset) 
         all_rules = []
 
         for i in range(k-1,0,-1):  # loop through k choose i
-            combinations = list(itertools.combinations(freq_itemset, i))  # get all combinations
-            candidates = list(map(lambda x: self.itemset_difference(freq_itemset, x), combinations))
+            combinations = list(itertools.combinations(freq_itemset[0], i))  # get all combinations
+            candidates = list(map(lambda x: self.itemset_difference(freq_itemset[0], x), combinations))
             all_rules.extend(candidates)
 
         return all_rules
@@ -296,7 +298,7 @@ class Apriori:
         rule_set.extend([support, confidence])
         return rule_set
 
-    def prune_candidate_rules(self, freq_itemset, itemset_count):
+    def prune_candidate_rules(self, freq_itemset, itemset_count, k):
         """Tests the candidates for one frequent itemset and prunes < min_confidence
         Args:
           freq_itemset: a frequent itemset in the form of a tuple.
@@ -311,7 +313,7 @@ class Apriori:
             raise ValueError('support_pct must be in the range [0,1]') 
 
         max_count = math.floor(itemset_count / self.confidence_pct)  # max denominator
-        all_rules = self.generate_candidate_rules(freq_itemset)  # generate all rules from itemset
+        all_rules = self.generate_candidate_rules(freq_itemset, k)  # generate all rules from itemset
         pruned_rules = list(filter(lambda x: self.all_frequent[(x[0])] <= max_count, all_rules))  # filter out right side
         list(map(lambda x: self.get_support_confidence(x, itemset_count), pruned_rules))  # add support, confidence to rules
 
@@ -321,17 +323,13 @@ class Apriori:
     def generate_all_rules(self):
 
         associations = [] 
-        for key, value in self.all_frequent.items():
-            pruned_rules = self.prune_candidate_rules(key, value)
+        for key, value in self.all_frequent.items(): 
+            if (isinstance(key, str)):
+                k= 1
+            else:
+                k = len(key)
+            pruned_rules = self.prune_candidate_rules([key], value, k)
             associations.extend(pruned_rules)
 
         return associations
 
-test = {'T100':['M','O','N','K','E','Y'],
-        'T200':['D','O','N','K','E','Y'],
-        'T300':['M','A','K','E'],
-        'T400':['M','U','C','K','Y'], 
-        'T500':['C','O','O','K','I','E']}
-
-a = Apriori(test, .6, .8)
-print(a.generate_all_rules())

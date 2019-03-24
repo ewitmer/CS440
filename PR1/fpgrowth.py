@@ -60,25 +60,6 @@ class FPTree:
             data[key] = list(set(value))
         
         return data 
-
-    def get_min_support(self, data, support_pct):
-        """Returns minimum support count of a data set.
-        Args:
-            data: A dict of {key: transactionID, value: transaction items}.
-            support_pct: minimum support required to be defined as frequent.
-        Raises:
-            TypeError: If the data is not of type dict.
-            ValueErorr: If the support_pct is outside of the range [0,1]
-            Returns:
-                The support count required to meet the threshold of frequent itemset.
-        """
-        if (type(data)) != dict:
-            raise TypeError('Data needs to be in dictionary format')
-        
-        if support_pct > 1 or support_pct < 0:
-            raise ValueError('support_pct must be in the range [0,1]')
-        
-        return math.ceil(len(data) * support_pct)
     
     def prune_itemsets(self, candidates):
         """Returns frequent itemsets based on support count.
@@ -130,7 +111,9 @@ class FPTree:
 
         self.prune_itemsets(freq_data) # remove infrequent 
         freq_sorted = sorted(freq_data.items(), key=itemgetter(1), reverse=True)  # sort by value
-        f1_sorted = list(map(lambda x: x[0], freq_sorted))  # sorted list of items
+        f1_sorted = []
+        for item in freq_sorted:
+            f1_sorted.append(item[0])  # sorted list of items
 
         return f1_sorted  # return the new dict
     
@@ -217,9 +200,9 @@ class FPTree:
         Returns:
             Prefix path, conditional count and conditional value.
         """
-        curr = node
-        count = node.count
-        path = []
+        curr = node  # set curr to node passed in
+        count = node.count # extract count from node
+        path = [] 
         while curr.parent_node.name != None:
             path.insert(0, curr.parent_node.name)
             curr = curr.parent_node
@@ -236,55 +219,77 @@ class FPTree:
         curr = node  # set current node
         path = self.get_path_from_node(curr)  # process path
         cp.append(path)  # append to list
-        while curr.lateral_node != None: 
-            curr = curr.lateral_node
-            path = self.get_path_from_node(curr)
-            cp.append(path)
-        return cp
+        while curr.lateral_node != None: # while there is a lateral link
+            curr = curr.lateral_node  # step to the side
+            path = self.get_path_from_node(curr)  # get the path
+            cp.append(path)  # append the path
+        return cp # return conditional pattern for header node
             
     def build_data_from_cp(self, cp):
-        cp_data = {}
-        count = 0
-        for i in range(len(cp)):
-            for j in range(cp[i][1]):
-                cp_data.update({count:cp[i][0]})
-                count+=1
-        return cp_data
+        """Takes in a conditional pattern database and builds a dataset from it.
+        Args:
+            cp: Conditional patterns with count
+        Returns:
+            A conditional database formatted as a dataset from which a tree can  be built.
+        """
+        cp_data = {}  # empty dict
+        count = 0  # counter
+        for i in range(len(cp)):  # for each set in conditional pattern
+            for j in range(cp[i][1]): # for each time the pattern appears
+                cp_data.update({count:cp[i][0]}) # add the pattern to the data that many times
+                count+=1  # update the counter
+        return cp_data  # return the new data set 
 
     def build_data_from_node(self, node):
-        cp = self.get_conditional_pattern(node)
-        data = self.build_data_from_cp(cp)
-        return data
+        """Takes in a node and builds a dataset from it.
+        Args:
+            node: starting node
+        Returns:
+            A conditional database formatted as a dataset from which a tree can  be built.
+        """
+        cp = self.get_conditional_pattern(node) # get conditional pattern
+        data = self.build_data_from_cp(cp)  # build data set
+        return data # return dataset
+    
+    def mine_node(self, node):
+        curr_node = node
+        data = self.build_data_from_node(curr_node)
 
-    def add_to_all_frequent(self, fp):
-        self.all_frequent.update(fp)
-
-    @staticmethod
-    def mine_data(tree, support_count, confidence_pct, prefix=set(), fp={}):
-        for item in tree.f1_sorted[::-1]:
-            prefix.add(item)
-            header_node = tree.node_links[item][0]
-            conditional_data = tree.build_data_from_node(header_node)
-            next_tree = FPTree(conditional_data, support_count, confidence_pct)
-            if next_tree.head.children != {}:
-                for key, value in next_tree.pruned_candidates.items():
-                    p = list(prefix)
-                    k = list(key)
-                    p.extend(k)
-                    d = sorted(p)
-                    fp.update({tuple(d): value})
-                next_tree.mine_data(next_tree, support_count, confidence_pct, prefix, fp)
-            prefix = set() 
-        return fp
+    def mine_data(self, prefix=set(),all_p={}):
+        """Static method recursively generates frequent patterns from all conditional databases.
+        Args:
+            tree: tree to mine
+            support_count: from tree
+            confidence_pct: from tree
+            prefix: prefix pattern, builds through recursion but resets at change of header
+            fp: builds through recursion
+        Returns:
+            All frequent patterns from the conditional database.
+        """
+        for item in self.f1_sorted[::-1]:  # for each item in the header table
+            prefix.add(item)  # push the value to the prefix set
+            header_node = self.node_links[item][0] # get the first node in the list
+            conditional_data = self.build_data_from_node(header_node) # get a dataset from that node
+            next_tree = FPTree(conditional_data, self.support_count, self.confidence_pct) # build a new tree from the dataset
+            if next_tree.head.children != {}: # if that new tree is not a single path, 
+                for key, value in next_tree.pruned_candidates.items(): # update all frequent patterns with the prefix + each pruned candidate
+                    p = list(prefix)  # prefix
+                    k = [key]  # pruned candidate
+                    p.extend(k)  # together they are a frequent pattern
+                    p.sort()  # sort the list so that it can be accessed
+                    all_p.update({tuple(p): value})  # update the frequent patterns data
+            next_tree.mine_data(prefix, all_p) # recursively call mine tree
+            prefix.remove(item) # when switching to next node in the header tree, reset the prefix
+        return all_p
 
     def mine_all_data(self):
-        self.add_to_all_frequent(self.pruned_candidates)
-        sub_tree_fp = FPTree.mine_data( self, 
-                                        self.support_count, 
-                                        self.confidence_pct, 
-                                        set(), 
-                                        self.all_frequent)
-        self.add_to_all_frequent(sub_tree_fp)
+        """Returns all frequent patterns for a dataset.
+        Returns:
+            All frequent patterns from the conditional database.
+        """
+        self.all_frequent.update(self.pruned_candidates) # add L1 frequent items
+        sub_tree_fp = self.mine_data(set(),self.all_frequent)
+        self.all_frequent.update(sub_tree_fp)  # add L2+ frequent items
         return self.all_frequent
 
     def itemset_difference(self, itemset, subset):
@@ -313,19 +318,18 @@ class FPTree:
 
         return diff
     
-    def generate_candidate_rules(self, freq_itemset):
+    def generate_candidate_rules(self, freq_itemset, k):
         """Generates a list of all rules candidates for an itemset: [(s), (l-s)].
         Args:
           freq_itemset: a frequent itemset in the form of a tuple.
         Returns:
           All possible rules for the itemset.
         """
-        k = len(freq_itemset) 
         all_rules = []
 
         for i in range(k-1,0,-1):  # loop through k choose i
-            combinations = list(itertools.combinations(freq_itemset, i))  # get all combinations
-            candidates = list(map(lambda x: self.itemset_difference(freq_itemset, x), combinations))
+            combinations = list(itertools.combinations(freq_itemset[0], i))  # get all combinations
+            candidates = list(map(lambda x: self.itemset_difference(freq_itemset[0], x), combinations))
             all_rules.extend(candidates)
 
         return all_rules
@@ -337,7 +341,7 @@ class FPTree:
         rule_set.extend([support, confidence])
         return rule_set
 
-    def prune_candidate_rules(self, freq_itemset, itemset_count):
+    def prune_candidate_rules(self, freq_itemset, itemset_count, k):
         """Tests the candidates for one frequent itemset and prunes < min_confidence
         Args:
           freq_itemset: a frequent itemset in the form of a tuple.
@@ -352,28 +356,34 @@ class FPTree:
             raise ValueError('support_pct must be in the range [0,1]') 
 
         max_count = math.floor(itemset_count / self.confidence_pct)  # max denominator
-        all_rules = self.generate_candidate_rules(freq_itemset)  # generate all rules from itemset
+        all_rules = self.generate_candidate_rules(freq_itemset, k)  # generate all rules from itemset
         pruned_rules = list(filter(lambda x: self.all_frequent[(x[0])] <= max_count, all_rules))  # filter out right side
         list(map(lambda x: self.get_support_confidence(x, itemset_count), pruned_rules))  # add support, confidence to rules
 
         return pruned_rules
 
     def generate_all_rules(self):
-        self.mine_all_data()
+        """Generates all frequent pattern rules
+        Returns:
+          All possible rules for the itemset.
+        """ 
+
+        self.mine_all_data()  # generate all frequent patterns
         associations = [] 
-        for key, value in self.all_frequent.items():
-            pruned_rules = self.prune_candidate_rules(key, value)
+        for key, value in self.all_frequent.items(): 
+            if (isinstance(key, str)):
+                k= 1
+            else:
+                k = len(key)
+            pruned_rules = self.prune_candidate_rules([key], value, k)
             associations.extend(pruned_rules)
 
+        with open('output/fpgrowth_results.txt', 'w') as file: # write all associations to file
+            file.write("=== RESULTS ===\n\n")
+            file.write("Algorithm:\tFP-Growth\n")
+            file.write("Count:\t\t%d\n\n" % len(associations))
+            for item in associations:
+                file.write("%s\n" % item)
+
         return associations
-
-
-test = {'T100':['M','O','N','K','E','Y'],
-        'T200':['D','O','N','K','E','Y'],
-        'T300':['M','A','K','E'],
-        'T400':['M','U','C','K','Y'], 
-        'T500':['C','O','O','K','I','E']}
-
-fp = FPTree(test, 3, .8)
-print(fp.generate_all_rules())
 

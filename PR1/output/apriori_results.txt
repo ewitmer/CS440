@@ -1,0 +1,5 @@
+=== RESULTS ===
+
+Algorithm:	Apriori
+Count:		0
+

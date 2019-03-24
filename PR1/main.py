@@ -58,7 +58,17 @@ def test_algos(rules_a, rules_fp):
         return False
 
 
+def filter_rules(associations, conditional):
+
+    cond_associations = []
+    for item in a.associations:
+        if item[1] == '>50K':
+            cond_associations.append(item)
+    return cond_associations
+
+
 def run_algorithms(support, confidence):
+    print("Suppot: %d, Confidence: %f", (support, confidence))
     start = time.time()
     ap = AprioriPartition(transactions, support, confidence, 4)
     end = time.time()
@@ -106,9 +116,14 @@ def run_algorithms(support, confidence):
     print("Time to run: " + str(fp_time) + "\n")
     print("Asserts both algorithms generate the same association rule set: ",
           test_algos(a.associations, fp.associations))
+    cond_associations = filter_rules(fp.associations, '<=50K')
+    print("Associations (features) -> (>50K) at these levels:")
+    for item in cond_associations:
+        print(item[0]+" => "+item[1] +
+              " | support: %0.2f | confidence: %0.2f", (support, confidence))
     print("==========================\n")
 
 
-run_algorithms(15000, .7)
-run_algorithms(17500, .7)
-run_algorithms(20000, .7)
+run_algorithms(5000, .3)
+run_algorithms(6000, .4)
+run_algorithms(6500, .4)

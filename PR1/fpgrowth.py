@@ -31,7 +31,7 @@ class FPNode:
 
 class FPTree:
     def __init__(self, data, support_count, confidence_pct):
-        self.data = self.remove_duplicates(data)
+        self.data = data
         self.confidence_pct = confidence_pct
         self.length = len(data)
         self.support_count = support_count
@@ -47,7 +47,8 @@ class FPTree:
         self.cp_tree = None
         self.associations = self.generate_all_rules()
 
-    def remove_duplicates(self, data):
+    @staticmethod
+    def remove_duplicates(data):
         """Remove duplicates in transactions.
         Args:
           data: A dict of {key: transactionID, value: transaction items}.
@@ -63,6 +64,26 @@ class FPTree:
             data[key] = list(set(value))
 
         return data
+
+    @staticmethod
+    def get_min_support(data, support_pct):
+        """Returns minimum support count of a data set.
+        Args:
+            data: A dict of {key: transactionID, value: transaction items}.
+            support_pct: minimum support required to be defined as frequent.
+        Raises:
+            TypeError: If the data is not of type dict.
+            ValueErorr: If the support_pct is outside of the range [0,1]
+            Returns:
+                The support count required to meet the threshold of frequent itemset.
+    """
+        if (type(data)) != dict:
+            raise TypeError('Data needs to be in dictionary format')
+
+        if support_pct > 1 or support_pct < 0:
+            raise ValueError('support_pct must be in the range [0,1]')
+
+        return math.ceil(len(data) * support_pct)
 
     def prune_itemsets(self, candidates):
         """Returns frequent itemsets based on support count.
@@ -172,9 +193,19 @@ class FPTree:
         Args:
           item_list: a list of items in a transaction.
         """
-        for item in self.f1_sorted:  # for every item in the F1 sorted list
-            if item in item_list:  # if it is in the item list
-                self.process_node(item, n)  # process the item
+        sorted_itemlist = list(
+            map(lambda x: [x, self.pruned_candidates.get(x)], item_list))  # get values for item
+
+        sorted_itemlist = list(
+            filter(lambda x: x[1] != None, sorted_itemlist))  # remove items that are not frequent
+
+        sorted(sorted_itemlist, key=lambda x: x[1])  # sort list in order
+
+        sorted_itemlist = list(
+            map(lambda x: x[0], sorted_itemlist))  # remove values and return list
+
+        for item in sorted_itemlist:
+            self.process_node(item, n)  # process the item
 
     def process_all_transactions(self, data, head, count=1):
         """Processes all transactions in a dataset.
@@ -199,7 +230,7 @@ class FPTree:
         self.head.print_node()  # print tree
 
     def get_path_from_node(self, node):
-        """Takes in a single node from tree, returns the prefix path, 
+        """Takes in a single node from tree, returns the prefix path,
             conditional count and conditional.
         Args:
             node: node on FPTree

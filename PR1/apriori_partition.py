@@ -33,7 +33,7 @@ class AprioriPartition:
         partitions = self.partition_data()
         for key, value in partitions.items():
             candidates = Apriori(
-                value, self.support_count // self.k, self.confidence_pct).all_frequent
+                value, math.floor(self.support_count // self.k), self.confidence_pct).all_frequent
             A = Counter(self.candidates)
             B = Counter(candidates)
             C = A + B

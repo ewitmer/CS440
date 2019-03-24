@@ -3,12 +3,12 @@
 Algorithm:	Apriori
 Count:		98
 
-Finished in 2.24 secondsUnited-States: 29170
+Finished in 2.22 secondsWhite: 27816
 Male: 21790
 cl_0: 31042
-<=50K: 24720
-White: 27816
 <40h: 22980
+United-States: 29170
+<=50K: 24720
 cg_0: 29849
 Private: 22696
 <40h<=50K: 18995

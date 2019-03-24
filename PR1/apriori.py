@@ -4,7 +4,7 @@ import itertools
 
 class Apriori:
     def __init__(self, data, support_count, confidence_pct):
-        self.data = self.remove_duplicates(data)
+        self.data = data
         self.length = len(data)
         self.support_pct = support_count / self.length
         self.confidence_pct = confidence_pct
@@ -12,7 +12,8 @@ class Apriori:
         self.all_frequent = self.find_frequent_itemsets()
         self.associations = self.generate_all_rules()
 
-    def remove_duplicates(self, data):
+    @staticmethod
+    def remove_duplicates(data):
         """Remove duplicates in transactions.
         Args:
           data: A dict of {key: transactionID, value: transaction items}.
@@ -29,7 +30,8 @@ class Apriori:
 
         return data
 
-    def get_min_support(self, data, support_pct):
+    @staticmethod
+    def get_min_support(data, support_pct):
         """Returns minimum support count of a data set.
         Args:
             data: A dict of {key: transactionID, value: transaction items}.

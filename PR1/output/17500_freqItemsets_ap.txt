@@ -3,12 +3,12 @@
 Algorithm:	AprioriParition
 Count:		66
 
-Finished in 1.75 secondsUnited-States: 29170
+Finished in 1.75 secondsWhite: 27816
 Male: 21790
 cl_0: 31042
-<=50K: 24720
 <40h: 22980
-White: 27816
+United-States: 29170
+<=50K: 24720
 cg_0: 29849
 Private: 22696
 <40h<=50K: 18995

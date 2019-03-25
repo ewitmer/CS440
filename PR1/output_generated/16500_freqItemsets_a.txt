@@ -1,9 +1,9 @@
 === RESULTS ===
 
-Algorithm:	AprioriParition
-Count:		97
+Algorithm:	Apriori
+Count:		81
 
-Finished in 2.61 secondsWhite: 27816
+Finished in 2.05 secondsWhite: 27816
 Male: 21790
 cl_0: 31042
 <40h: 22980
@@ -15,7 +15,6 @@ Private: 22696
 <40hUnited-States: 20414
 <40hWhite: 19056
 <40hcl_0: 22079
-<=50KMale: 15128
 <=50KUnited-States: 21999
 <=50KWhite: 20699
 <=50Kcl_0: 23974
@@ -31,14 +30,12 @@ Malecg_0: 19701
 United-Statescg_0: 26699
 Whitecg_0: 25407
 cg_0cl_0: 28330
-<40hPrivate: 16278
 <=50KPrivate: 17733
 PrivateUnited-States: 20135
 PrivateWhite: 19404
 Privatecg_0: 20964
 Privatecl_0: 21714
 <40h<=50KUnited-States: 16815
-<40h<=50KWhite: 15536
 <40h<=50Kcl_0: 18451
 <40hUnited-StatesWhite: 17425
 <40hUnited-Statescl_0: 19598
@@ -63,9 +60,6 @@ Malecg_0cl_0: 18551
 United-StatesWhitecg_0: 23369
 United-Statescg_0cl_0: 25320
 Whitecg_0cl_0: 24061
-<40hPrivatecg_0: 15288
-<40hPrivatecl_0: 15701
-<=50KPrivateUnited-States: 15594
 <=50KPrivatecg_0: 17037
 <=50KPrivatecl_0: 17225
 PrivateUnited-StatesWhite: 17728
@@ -74,29 +68,19 @@ PrivateUnited-Statescl_0: 19237
 PrivateWhitecg_0: 17864
 PrivateWhitecl_0: 18528
 Privatecg_0cl_0: 19982
-<40h<=50KUnited-Statescl_0: 16329
 <40hUnited-StatesWhitecl_0: 16696
 <=50KUnited-StatesWhitecl_0: 18313
 MaleUnited-StatesWhitecl_0: 16679
-<40h<=50KUnited-Statescg_0: 16135
 <40h<=50Kcg_0cl_0: 17699
-<40hUnited-StatesWhitecg_0: 16168
 <40hUnited-Statescg_0cl_0: 18183
 <40hWhitecg_0cl_0: 16944
 <=50KUnited-StatesWhitecg_0: 18097
 <=50KUnited-Statescg_0cl_0: 20394
 <=50KWhitecg_0cl_0: 19161
-MaleUnited-StatesWhitecg_0: 15883
 MaleUnited-Statescg_0cl_0: 16546
-MaleWhitecg_0cl_0: 16254
 United-StatesWhitecg_0cl_0: 22097
-<=50KPrivateUnited-Statescl_0: 15132
 <=50KPrivatecg_0cl_0: 16529
-PrivateUnited-StatesWhitecg_0: 16292
 PrivateUnited-StatesWhitecl_0: 16895
 PrivateUnited-Statescg_0cl_0: 17660
 PrivateWhitecg_0cl_0: 16988
-<40h<=50KUnited-Statescg_0cl_0: 15649
-<40hUnited-StatesWhitecg_0cl_0: 15439
 <=50KUnited-StatesWhitecg_0cl_0: 17493
-PrivateUnited-StatesWhitecg_0cl_0: 15459

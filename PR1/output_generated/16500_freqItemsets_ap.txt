@@ -1,9 +1,9 @@
 === RESULTS ===
 
 Algorithm:	AprioriParition
-Count:		66
+Count:		77
 
-Finished in 1.75 secondsWhite: 27816
+Finished in 1.96 secondsWhite: 27816
 Male: 21790
 cl_0: 31042
 <40h: 22980
@@ -35,7 +35,9 @@ PrivateUnited-States: 20135
 PrivateWhite: 19404
 Privatecg_0: 20964
 Privatecl_0: 21714
+<40h<=50KUnited-States: 16815
 <40h<=50Kcl_0: 18451
+<40hUnited-StatesWhite: 17425
 <40hUnited-Statescl_0: 19598
 <40hWhitecl_0: 18287
 <=50KUnited-StatesWhite: 18917
@@ -52,10 +54,15 @@ United-StatesWhitecl_0: 24349
 <=50KUnited-Statescg_0: 21068
 <=50KWhitecg_0: 19801
 <=50Kcg_0cl_0: 22939
+MaleUnited-Statescg_0: 17586
+MaleWhitecg_0: 17286
 Malecg_0cl_0: 18551
 United-StatesWhitecg_0: 23369
 United-Statescg_0cl_0: 25320
 Whitecg_0cl_0: 24061
+<=50KPrivatecg_0: 17037
+<=50KPrivatecl_0: 17225
+PrivateUnited-StatesWhite: 17728
 PrivateUnited-Statescg_0: 18558
 PrivateUnited-Statescl_0: 19237
 PrivateWhitecg_0: 17864
@@ -64,8 +71,12 @@ Privatecg_0cl_0: 19982
 <=50KUnited-StatesWhitecl_0: 18313
 <40h<=50Kcg_0cl_0: 17699
 <40hUnited-Statescg_0cl_0: 18183
+<40hWhitecg_0cl_0: 16944
 <=50KUnited-StatesWhitecg_0: 18097
 <=50KUnited-Statescg_0cl_0: 20394
 <=50KWhitecg_0cl_0: 19161
 United-StatesWhitecg_0cl_0: 22097
+PrivateUnited-StatesWhitecl_0: 16895
 PrivateUnited-Statescg_0cl_0: 17660
+PrivateWhitecg_0cl_0: 16988
+<=50KUnited-StatesWhitecg_0cl_0: 17493
